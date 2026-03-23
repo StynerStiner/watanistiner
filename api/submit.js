@@ -247,6 +247,21 @@ module.exports = async function handler(req, res) {
 
   } catch (error) {
     console.error('Submit error:', error);
-    return res.status(500).json({ error: 'Something went wrong. Please try again or contact grants@watanistiner.com', debug: error.message });
+    const hasCredEnv = !!process.env.GOOGLE_CREDENTIALS_BASE64;
+    let credLen = 0;
+    let parsedEmail = '';
+    let hasPrivateKey = false;
+    try {
+      const raw = Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64 || '', 'base64').toString('utf8');
+      credLen = raw.length;
+      const parsed = JSON.parse(raw);
+      parsedEmail = parsed.client_email || 'missing';
+      hasPrivateKey = !!(parsed.private_key && parsed.private_key.includes('PRIVATE KEY'));
+    } catch(e) { parsedEmail = 'parse_error: ' + e.message; }
+    return res.status(500).json({
+      error: 'Something went wrong. Please try again or contact grants@watanistiner.com',
+      debug: error.message,
+      envCheck: { hasCredEnv, credLen, parsedEmail, hasPrivateKey }
+    });
   }
 };
