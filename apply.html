@@ -417,11 +417,17 @@
                         <div class="col-lg-8">
                             <div class="apply-card wow fadeInUp">
 
-                                <form method="post" action="https://formsubmit.co/bb7f67fecf69fa7dd6fc51147181d88f">
-                                    <input type="hidden" name="_subject" value="New Grant Application — Watani Stiner Legacy Group">
-                                    <input type="hidden" name="_next" value="https://www.watanistiner.com/thank-you">
-                                    <input type="hidden" name="_captcha" value="false">
-                                    <input type="text" name="_honey" style="display:none">
+                                <div id="payment-cancelled-notice" style="display:none; background:#fff3cd; border:1px solid #856404; color:#856404; padding:16px 20px; margin-bottom:24px; font-weight:600;">
+                                    Your application was submitted but payment was not completed. Please resubmit your application to proceed with payment.
+                                </div>
+                                <script>
+                                if (new URLSearchParams(window.location.search).get('payment') === 'cancelled') {
+                                    document.getElementById('payment-cancelled-notice').style.display = 'block';
+                                }
+                                </script>
+
+                                <form id="grant-application-form">
+                                    <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
 
                                     <!-- Step 1: Personal Info -->
                                     <div class="form-step-title">
@@ -608,16 +614,17 @@
                                         <div>
                                             <p style="margin-bottom:4px;">A non-refundable application fee is required to process your submission.</p>
                                             <p style="margin:0;"><strong style="font-size:24px;" id="fee-display">Select a grant above to see your fee</strong></p>
+                                            <p style="margin-top:8px; font-size:13px; opacity:0.6;">Your fee will be collected securely via Stripe after you submit.</p>
                                         </div>
-                                        <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" id="fee-pay-btn" class="grant-btn grant-btn-apply" style="display:none; background:#fff; color:#000; padding:14px 32px; white-space:nowrap;">Pay Fee</a>
                                     </div>
+
+                                    <div id="form-error" style="display:none; background:#fee; border:1px solid #c00; color:#c00; padding:14px 20px; margin-bottom:20px; font-weight:600;"></div>
 
                                     <script>
                                     document.querySelector('select[name="Grant"]').addEventListener('change', function(){
                                         var val = this.value;
                                         var fee = val.indexOf('$15') > -1 ? 15 : 10;
                                         document.getElementById('fee-display').textContent = 'Your fee: $' + fee;
-                                        document.getElementById('fee-pay-btn').style.display = 'inline-block';
                                     });
                                     </script>
 
@@ -626,7 +633,66 @@
 
                                     <div class="spacer-single"></div>
 
-                                    <button type="submit" class="apply-submit">Submit Application</button>
+                                    <button type="submit" class="apply-submit" id="submit-btn">Submit Application</button>
+
+                                    <script>
+                                    document.getElementById('grant-application-form').addEventListener('submit', async function(e) {
+                                        e.preventDefault();
+
+                                        var btn = document.getElementById('submit-btn');
+                                        var errorDiv = document.getElementById('form-error');
+                                        errorDiv.style.display = 'none';
+
+                                        // Disable button and show loading
+                                        btn.disabled = true;
+                                        btn.textContent = 'Processing...';
+
+                                        var form = e.target;
+                                        var formData = {
+                                            honeypot: form.querySelector('[name="honeypot"]').value,
+                                            firstName: form.querySelector('[name="First Name"]').value,
+                                            lastName: form.querySelector('[name="Last Name"]').value,
+                                            email: form.querySelector('[name="Email"]').value,
+                                            phone: form.querySelector('[name="Phone"]').value,
+                                            streetAddress: form.querySelector('[name="Street Address"]').value,
+                                            city: form.querySelector('[name="City"]').value,
+                                            state: form.querySelector('[name="State"]').value,
+                                            zipCode: form.querySelector('[name="Zip Code"]').value,
+                                            grant: form.querySelector('[name="Grant"]').value,
+                                            whyApplying: form.querySelector('[name="Why Applying"]').value,
+                                            missionOrProject: form.querySelector('[name="Mission or Project"]').value,
+                                            communityImpact: form.querySelector('[name="Community Impact"]').value,
+                                            priorFunding: form.querySelector('[name="Prior Funding"]').value,
+                                            priorFundingDetails: form.querySelector('[name="Prior Funding Details"]').value,
+                                            howHeard: form.querySelector('[name="How Heard"]').value,
+                                            additionalNotes: form.querySelector('[name="Additional Notes"]').value,
+                                        };
+
+                                        try {
+                                            var response = await fetch('/api/submit', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify(formData),
+                                            });
+
+                                            var result = await response.json();
+
+                                            if (!response.ok) {
+                                                throw new Error(result.error || 'Submission failed');
+                                            }
+
+                                            // Redirect to Stripe Checkout
+                                            window.location.href = result.url;
+
+                                        } catch (err) {
+                                            errorDiv.textContent = err.message || 'Something went wrong. Please try again.';
+                                            errorDiv.style.display = 'block';
+                                            btn.disabled = false;
+                                            btn.textContent = 'Submit Application';
+                                            window.scrollTo({ top: errorDiv.offsetTop - 100, behavior: 'smooth' });
+                                        }
+                                    });
+                                    </script>
                                 </form>
                             </div>
                         </div>

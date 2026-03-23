@@ -191,9 +191,27 @@
                         <div class="col-lg-7 text-center text-lg-start">
                             <h1 class="wow fadeInUp" data-wow-delay=".3s">Thank You</h1>
                             <div class="spacer-10"></div>
-                            <h3 class="wow fadeInUp" data-wow-delay=".4s" style="font-weight:400;">Your inquiry has been received.</h3>
+                            <h3 class="wow fadeInUp" data-wow-delay=".4s" style="font-weight:400;" id="thank-you-subtitle">Your inquiry has been received.</h3>
                             <div class="spacer-10"></div>
-                            <p class="lead wow fadeInUp" data-wow-delay=".5s">We appreciate your interest in booking Watani Stiner. A member of the Watani Stiner Legacy Group will review your message and respond within 48 hours.</p>
+                            <p class="lead wow fadeInUp" data-wow-delay=".5s" id="thank-you-message">We appreciate your interest in booking Watani Stiner. A member of the Watani Stiner Legacy Group will review your message and respond within 48 hours.</p>
+                            <div id="app-id-display" style="display:none;" class="wow fadeInUp" data-wow-delay=".55s">
+                                <p style="font-weight:700; font-size:14px; letter-spacing:2px; text-transform:uppercase; opacity:0.5; margin-bottom:4px;">Your Application ID</p>
+                                <p style="font-weight:800; font-size:22px; letter-spacing:3px;" id="app-id-text"></p>
+                            </div>
+                            <script>
+                            (function() {
+                                var params = new URLSearchParams(window.location.search);
+                                if (params.get('paid') === 'true') {
+                                    document.getElementById('thank-you-subtitle').textContent = 'Your application and payment have been received.';
+                                    document.getElementById('thank-you-message').textContent = 'Your grant application has been submitted and your processing fee has been received. The Watani Stiner Legacy Group will review your application and respond within 14 business days.';
+                                    var appId = params.get('app_id');
+                                    if (appId) {
+                                        document.getElementById('app-id-text').textContent = appId;
+                                        document.getElementById('app-id-display').style.display = 'block';
+                                    }
+                                }
+                            })();
+                            </script>
 
                             <div class="spacer-single"></div>
 

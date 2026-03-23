@@ -1,0 +1,24 @@
+{
+  "name": "watanistiner",
+  "version": "1.0.0",
+  "description": "![Watani Stiner](https://pub-764d2f0e01a94716a648a3e4fdc92cf6.r2.dev/watanisiner.com/watanistiner-thumbnail.png)",
+  "main": "form.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stynerdev225/watanistiner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stynerdev225/watanistiner/issues"
+  },
+  "homepage": "https://github.com/stynerdev225/watanistiner#readme",
+  "dependencies": {
+    "googleapis": "^171.4.0",
+    "stripe": "^20.4.1"
+  }
+}
