@@ -26,15 +26,18 @@ function generateApplicationId() {
   return `WSG-${year}-${month}-${random}`;
 }
 
+function getCredentials() {
+  const raw = Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, 'base64').toString('utf8');
+  return JSON.parse(raw);
+}
+
 async function getGoogleSheetsClient() {
-  const privateKey = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || '')
-    .replace(/\\n/g, '\n')
-    .replace(/^["']|["']$/g, '');
+  const creds = getCredentials();
 
   const auth = new google.auth.JWT(
-    process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    creds.client_email,
     null,
-    privateKey,
+    creds.private_key,
     ['https://www.googleapis.com/auth/spreadsheets']
   );
 
