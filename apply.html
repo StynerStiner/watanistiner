@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Watani Stiner — Grant Application</title>
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="images/favicon.svg">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
+    <meta content="Apply for a Watani Stiner Legacy Group grant or scholarship." name="description" >
+    <!-- CSS Files -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="css/plugins.css" rel="stylesheet" type="text/css" >
+    <link href="css/style.css" rel="stylesheet" type="text/css" >
+    <link href="css/coloring.css" rel="stylesheet" type="text/css" >
+    <link id="colors" href="css/colors/scheme-02.css" rel="stylesheet" type="text/css" >
+
+    <style>
+        .apply-hero {
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .apply-hero-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+        }
+        .apply-hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.55;
+        }
+        .apply-hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .apply-form-section {
+            background: #fafafa;
+            padding: 60px 0;
+        }
+        .apply-card {
+            background: #fff;
+            padding: 50px 45px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+        }
+        .apply-card h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .form-step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        .form-step-title {
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        .form-divider {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 35px 0;
+        }
+        .apply-label {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .apply-sublabel {
+            font-size: 12px;
+            opacity: 0.5;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .apply-input, .apply-select, .apply-textarea {
+            width: 100%;
+            border: 1px solid #ddd;
+            padding: 14px 18px;
+            font-size: 15px;
+            background: #fff;
+            transition: border-color .3s;
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+        .apply-input:focus, .apply-select:focus, .apply-textarea:focus {
+            border-color: #000;
+            outline: none;
+        }
+        .apply-textarea {
+            min-height: 220px;
+            resize: vertical;
+        }
+        .apply-submit {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 16px 48px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border: none;
+            cursor: pointer;
+            transition: all .3s;
+            width: 100%;
+        }
+        .apply-submit:hover {
+            background: #333;
+        }
+        .apply-fee-note {
+            background: #000;
+            color: #fff;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .apply-fee-note p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .apply-fee-note strong {
+            font-size: 20px;
+            opacity: 1;
+        }
+        .apply-sidebar-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .apply-sidebar-quote {
+            font-style: italic;
+            font-size: 18px;
+            line-height: 1.6;
+            border-left: 3px solid #000;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        .apply-sidebar-info {
+            font-size: 13px;
+            opacity: 0.6;
+            line-height: 1.8;
+        }
+        .textarea-wrap {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .textarea-wrap .apply-textarea {
+            margin-bottom: 0;
+        }
+        .char-count {
+            text-align: right;
+            font-size: 12px;
+            opacity: 0.4;
+            padding-top: 6px;
+        }
+        @media (max-width: 991px) {
+            .apply-hero { min-height: 280px; }
+            .apply-card { padding: 30px 20px; }
+            .apply-fee-note { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+
+<body class="light-scheme">
+    <div id="wrapper">
+        <div class="float-text show-on-scroll">
+            <span><a href="#">Scroll to top</a></span>
+        </div>
+        <div class="scrollbar-v show-on-scroll"></div>
+        <div id="de-loader"></div>
+
+        <div class="section-dark no-bottom no-top" id="content">
+            <div id="top"></div>
+
+            <section class="no-top">
+                <div class="text-fit-wrapper">
+                    <h1 class="text-fit wow">GRANTS</h1>
+
+                    <div id="mobile-menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open'); this.classList.toggle('active');">
+                        <span></span><span></span><span></span>
+                    </div>
+
+                    <div class="d-menu-1 wow d-none d-lg-block" data-wow-delay=".3s">
+                        <ul>
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/engagements">Engagements</a></li>
+                            <li><a href="/media">Media</a></li>
+                            <li><a href="/grants">Grants</a></li>
+                            <li><a href="/contact">Book Watani</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="mobile-nav">
+                        <div id="mobile-nav-close" onclick="document.getElementById('mobile-nav').classList.remove('open'); document.getElementById('mobile-menu-toggle').classList.remove('active');">close</div>
+                        <ul>
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/engagements">Engagements</a></li>
+                            <li><a href="/media">Media</a></li>
+                            <li><a href="/grants">Grants</a></li>
+                            <li><a href="/contact">Book Watani</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <style>
+                #mobile-menu-toggle { display:none; position:relative; float:right; margin-top:-10px; margin-right:20px; cursor:pointer; z-index:1010; width:30px; height:22px; }
+                #mobile-menu-toggle span { display:block; width:30px; height:3px; background:#000; margin-bottom:5px; transition:.3s; border-radius:2px; }
+                #mobile-menu-toggle.active span { opacity:0; }
+                #mobile-nav { display:none; max-height:0; overflow:hidden; transition:max-height .4s ease, padding .4s ease; padding:0 20px; }
+                #mobile-nav.open { max-height:350px; padding:20px 20px 30px; }
+                #mobile-nav ul { list-style:none; padding:0; margin:0; }
+                #mobile-nav ul li { margin-bottom:16px; }
+                #mobile-nav ul li a { font-weight:800; text-transform:uppercase; font-size:18px; color:var(--title-font-color); text-decoration:none; letter-spacing:1px; }
+                #mobile-nav-close { text-align:right; font-weight:800; text-transform:uppercase; font-size:14px; letter-spacing:2px; cursor:pointer; margin-bottom:20px; color:var(--title-font-color); }
+                @media (max-width:991px) { #mobile-menu-toggle { display:block; } #mobile-nav { display:block; } }
+                </style>
+            </section>
+
+            <!-- Hero with background image -->
+            <div class="apply-hero">
+                <div class="apply-hero-bg">
+                    <img src="images/Grant-Images/vintage-style-image-of-an-african-sunset-with-blue-2026-01-09-14-25-59-utc.jpg" alt="">
+                </div>
+                <div class="container apply-hero-content">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="subtitle wow fadeInUp" data-wow-delay=".3s" style="color:#fff;">Grant Application</div>
+                            <h1 class="lh-1 wow fadeInUp" style="color:#fff;" data-wow-delay=".4s">Take the First Step</h1>
+                            <p class="lead wow fadeInUp" data-wow-delay=".5s" style="color:rgba(255,255,255,0.8);">
+                                Complete the application below to be considered for one of our grants or scholarships. Every application is reviewed with care.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Form -->
+            <div class="apply-form-section">
+                <div class="container">
+                    <div class="row g-5">
+
+                        <!-- Left: Form -->
+                        <div class="col-lg-8">
+                            <div class="apply-card wow fadeInUp">
+
+                                <form method="post" action="https://formsubmit.co/bb7f67fecf69fa7dd6fc51147181d88f">
+                                    <input type="hidden" name="_subject" value="New Grant Application — Watani Stiner Legacy Group">
+                                    <input type="hidden" name="_next" value="https://www.watanistiner.com/thank-you">
+                                    <input type="hidden" name="_captcha" value="false">
+                                    <input type="text" name="_honey" style="display:none">
+
+                                    <!-- Step 1: Personal Info -->
+                                    <div class="form-step-title">
+                                        <span class="form-step-number">1</span> Personal Information
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="apply-label">First Name</label>
+                                            <input type="text" name="First Name" class="apply-input" placeholder="Your first name" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="apply-label">Last Name</label>
+                                            <input type="text" name="Last Name" class="apply-input" placeholder="Your last name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="apply-label">Email</label>
+                                            <input type="email" name="Email" class="apply-input" placeholder="you@example.com" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="apply-label">Phone</label>
+                                            <input type="tel" name="Phone" class="apply-input" placeholder="(000) 000-0000">
+                                        </div>
+                                    </div>
+
+                                    <label class="apply-label">Street Address</label>
+                                    <input type="text" name="Street Address" class="apply-input" placeholder="123 Main Street" required>
+
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label class="apply-label">City</label>
+                                            <input type="text" name="City" class="apply-input" placeholder="Your city" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="apply-label">State</label>
+                                            <select name="State" class="apply-select" required style="margin-bottom:20px;">
+                                                <option value="" disabled selected>Select</option>
+                                                <option value="AL">Alabama</option>
+                                                <option value="AK">Alaska</option>
+                                                <option value="AZ">Arizona</option>
+                                                <option value="AR">Arkansas</option>
+                                                <option value="CA">California</option>
+                                                <option value="CO">Colorado</option>
+                                                <option value="CT">Connecticut</option>
+                                                <option value="DE">Delaware</option>
+                                                <option value="FL">Florida</option>
+                                                <option value="GA">Georgia</option>
+                                                <option value="HI">Hawaii</option>
+                                                <option value="ID">Idaho</option>
+                                                <option value="IL">Illinois</option>
+                                                <option value="IN">Indiana</option>
+                                                <option value="IA">Iowa</option>
+                                                <option value="KS">Kansas</option>
+                                                <option value="KY">Kentucky</option>
+                                                <option value="LA">Louisiana</option>
+                                                <option value="ME">Maine</option>
+                                                <option value="MD">Maryland</option>
+                                                <option value="MA">Massachusetts</option>
+                                                <option value="MI">Michigan</option>
+                                                <option value="MN">Minnesota</option>
+                                                <option value="MS">Mississippi</option>
+                                                <option value="MO">Missouri</option>
+                                                <option value="MT">Montana</option>
+                                                <option value="NE">Nebraska</option>
+                                                <option value="NV">Nevada</option>
+                                                <option value="NH">New Hampshire</option>
+                                                <option value="NJ">New Jersey</option>
+                                                <option value="NM">New Mexico</option>
+                                                <option value="NY">New York</option>
+                                                <option value="NC">North Carolina</option>
+                                                <option value="ND">North Dakota</option>
+                                                <option value="OH">Ohio</option>
+                                                <option value="OK">Oklahoma</option>
+                                                <option value="OR">Oregon</option>
+                                                <option value="PA">Pennsylvania</option>
+                                                <option value="RI">Rhode Island</option>
+                                                <option value="SC">South Carolina</option>
+                                                <option value="SD">South Dakota</option>
+                                                <option value="TN">Tennessee</option>
+                                                <option value="TX">Texas</option>
+                                                <option value="UT">Utah</option>
+                                                <option value="VT">Vermont</option>
+                                                <option value="VA">Virginia</option>
+                                                <option value="WA">Washington</option>
+                                                <option value="WV">West Virginia</option>
+                                                <option value="WI">Wisconsin</option>
+                                                <option value="WY">Wyoming</option>
+                                                <option value="DC">Washington, D.C.</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="apply-label">Zip Code</label>
+                                            <input type="text" name="Zip Code" class="apply-input" placeholder="00000" required>
+                                        </div>
+                                    </div>
+
+                                    <hr class="form-divider">
+
+                                    <!-- Step 2: Grant Selection -->
+                                    <div class="form-step-title">
+                                        <span class="form-step-number">2</span> Select Your Grant
+                                    </div>
+
+                                    <label class="apply-label">Which grant are you applying for?</label>
+                                    <select name="Grant" class="apply-select" required>
+                                        <option value="" disabled selected>Choose a grant or scholarship</option>
+                                        <optgroup label="Entrepreneurship">
+                                            <option value="The Watani Fund ($15 fee)">The Watani Fund — $1,000/month ($15 fee)</option>
+                                            <option value="The Stiner Legacy Grant ($10 fee)">The Stiner Legacy Grant — $500/month ($10 fee)</option>
+                                            <option value="The Liberation Builders Grant ($15 fee)">The Liberation Builders Grant — $1,000/month ($15 fee)</option>
+                                        </optgroup>
+                                        <optgroup label="Movement & Activism">
+                                            <option value="The Watani Freedom Fund ($10 fee)">The Watani Freedom Fund — $500/month ($10 fee)</option>
+                                            <option value="The COINTELPRO Survivors Grant ($15 fee)">The COINTELPRO Survivors Grant — $1,000/month ($15 fee)</option>
+                                        </optgroup>
+                                        <optgroup label="Education">
+                                            <option value="The Watani Stiner Scholarship ($10 fee)">The Watani Stiner Scholarship — $500/month ($10 fee)</option>
+                                        </optgroup>
+                                    </select>
+
+                                    <hr class="form-divider">
+
+                                    <!-- Step 3: Your Story -->
+                                    <div class="form-step-title">
+                                        <span class="form-step-number">3</span> Tell Us Your Story
+                                    </div>
+
+                                    <label class="apply-label">Why are you applying for this grant?</label>
+                                    <span class="apply-sublabel">Tell us what this funding would mean for you and your work. (200–500 words recommended)</span>
+                                    <div class="textarea-wrap">
+                                        <textarea name="Why Applying" class="apply-textarea" placeholder="Share your story..." required maxlength="3000" oninput="updateCount(this)"></textarea>
+                                        <div class="char-count"><span>0</span> / 3,000</div>
+                                    </div>
+
+                                    <label class="apply-label">What is your mission or project?</label>
+                                    <span class="apply-sublabel">Describe the business, organization, cause, or field of study this grant would support. (150–400 words recommended)</span>
+                                    <div class="textarea-wrap">
+                                        <textarea name="Mission or Project" class="apply-textarea" placeholder="Describe your work..." maxlength="2500" oninput="updateCount(this)"></textarea>
+                                        <div class="char-count"><span>0</span> / 2,500</div>
+                                    </div>
+
+                                    <label class="apply-label">How will this grant make a difference in your community?</label>
+                                    <span class="apply-sublabel">We believe in impact beyond the individual. Tell us how this investment ripples outward. (150–400 words recommended)</span>
+                                    <div class="textarea-wrap">
+                                        <textarea name="Community Impact" class="apply-textarea" placeholder="Describe the impact..." maxlength="2500" oninput="updateCount(this)"></textarea>
+                                        <div class="char-count"><span>0</span> / 2,500</div>
+                                    </div>
+
+                                    <hr class="form-divider">
+
+                                    <!-- Step 4: Background -->
+                                    <div class="form-step-title">
+                                        <span class="form-step-number">4</span> Background
+                                    </div>
+
+                                    <label class="apply-label">Have you received any prior grants or funding?</label>
+                                    <select name="Prior Funding" class="apply-select">
+                                        <option value="" disabled selected>Select one</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+
+                                    <label class="apply-label">If yes, please describe briefly</label>
+                                    <input type="text" name="Prior Funding Details" class="apply-input" placeholder="Organization, amount, year (optional)">
+
+                                    <label class="apply-label">How did you hear about us?</label>
+                                    <select name="How Heard" class="apply-select">
+                                        <option value="" disabled selected>Select one</option>
+                                        <option value="Website">Website</option>
+                                        <option value="Social Media">Social Media</option>
+                                        <option value="Community Event">Community Event</option>
+                                        <option value="Word of Mouth">Word of Mouth</option>
+                                        <option value="Speaking Engagement">Speaking Engagement</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+
+                                    <hr class="form-divider">
+
+                                    <!-- Fee Notice -->
+                                    <div class="apply-fee-note" id="fee-notice">
+                                        <div>
+                                            <p style="margin-bottom:4px;">A non-refundable application fee is required to process your submission.</p>
+                                            <p style="margin:0;"><strong style="font-size:24px;" id="fee-display">Select a grant above to see your fee</strong></p>
+                                        </div>
+                                        <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" id="fee-pay-btn" class="grant-btn grant-btn-apply" style="display:none; background:#fff; color:#000; padding:14px 32px; white-space:nowrap;">Pay Fee</a>
+                                    </div>
+
+                                    <script>
+                                    document.querySelector('select[name="Grant"]').addEventListener('change', function(){
+                                        var val = this.value;
+                                        var fee = val.indexOf('$15') > -1 ? 15 : 10;
+                                        document.getElementById('fee-display').textContent = 'Your fee: $' + fee;
+                                        document.getElementById('fee-pay-btn').style.display = 'inline-block';
+                                    });
+                                    </script>
+
+                                    <label class="apply-label">Anything else you'd like us to know?</label>
+                                    <textarea name="Additional Notes" class="apply-textarea" placeholder="Optional — share anything else relevant to your application."></textarea>
+
+                                    <div class="spacer-single"></div>
+
+                                    <button type="submit" class="apply-submit">Submit Application</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Right: Sidebar -->
+                        <div class="col-lg-4">
+                            <div class="wow fadeInUp" data-wow-delay=".3s">
+                                <img src="images/Grant-Images/african-family-in-traditional-clothes-2026-03-18-12-18-12-utc.jpg" class="apply-sidebar-img" alt="">
+
+                                <p class="apply-sidebar-quote">"We must be courageous in our willingness to put out fires that we did not start."</p>
+                                <p style="font-weight:600; opacity:0.5; font-size:13px; margin-bottom:30px;">— Watani Stiner</p>
+
+                                <img src="images/Grant-Images/positive-tribal-children-standing-near-huge-tree-2026-01-11-11-11-16-utc.jpg" class="apply-sidebar-img" alt="">
+
+                                <h5 style="margin-bottom:12px;">What Happens Next?</h5>
+                                <div class="apply-sidebar-info">
+                                    <p><strong>1.</strong> Your application is reviewed by the Watani Stiner Legacy Group.</p>
+                                    <p><strong>2.</strong> You'll receive a response within 14 business days.</p>
+                                    <p><strong>3.</strong> Selected applicants will be contacted for a brief conversation.</p>
+                                    <p><strong>4.</strong> Grant recipients are announced monthly.</p>
+                                </div>
+
+                                <div class="spacer-single"></div>
+
+                                <img src="images/Grant-Images/elderly-woman-adorned-with-traditional-beads-gazin-2026-01-09-09-25-59-utc.jpg" class="apply-sidebar-img" alt="">
+
+                                <p class="apply-sidebar-quote">"Without forgiveness, there is no possibility of unity; without truthtelling, there is no possibility of forgiveness."</p>
+                                <p style="font-weight:600; opacity:0.5; font-size:13px; margin-bottom:30px;">— Watani Stiner</p>
+
+                                <div class="spacer-single"></div>
+
+                                <div style="background:#000; color:#fff; padding:30px; margin-bottom:20px;">
+                                    <h5 style="color:#fff; margin-bottom:10px;">6 Grants Available</h5>
+                                    <p style="font-size:13px; opacity:0.7; margin-bottom:15px;">Funding for entrepreneurs, activists, survivors, students, and builders.</p>
+                                    <a href="/grants" style="color:#fff; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:2px; text-decoration:none; border-bottom:1px solid #fff; padding-bottom:2px;">View All Grants &rarr;</a>
+                                </div>
+
+                                <div class="spacer-single"></div>
+
+                                <img src="images/Grant-Images/happy-ethnic-couple-embracing-on-city-street-2026-01-11-11-11-18-utc.jpg" class="apply-sidebar-img" alt="">
+
+                                <p class="apply-sidebar-quote">"Let's be part of a movement going in the other direction — to heal, respect and build up a just world we all want and deserve to live in."</p>
+                                <p style="font-weight:600; opacity:0.5; font-size:13px; margin-bottom:30px;">— Watani Stiner</p>
+
+                                <div style="background:#000; color:#fff; padding:25px 30px;">
+                                    <h5 style="color:#fff; margin-bottom:8px;">Questions?</h5>
+                                    <p style="font-size:14px; opacity:0.7; margin-bottom:12px;">We're here to help with your application.</p>
+                                    <a href="mailto:grants@watanistiner.com" style="color:#fff; font-weight:700; font-size:14px; text-decoration:none; border-bottom:1px solid #fff; padding-bottom:2px;">grants@watanistiner.com</a>
+                                </div>
+
+                                <div class="spacer-single"></div>
+
+                                <img src="images/Grant-Images/woman-carrying-clay-pot-on-shoulder-with-a-child-p-2026-01-09-09-07-52-utc.jpg" class="apply-sidebar-img" alt="">
+
+                                <p class="apply-sidebar-quote">"What we carry forward is not the weight of the past — it is the strength to build something new for those who come after us."</p>
+                                <p style="font-weight:600; opacity:0.5; font-size:13px; margin-bottom:30px;">— Watani Stiner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book Section -->
+            <section>
+                <div class="container">
+                    <div class="row align-items-center g-4 gx-5">
+                        <div class="col-lg-5 text-center wow fadeInLeft" data-wow-delay=".3s">
+                            <img src="images/book-mockup/1.StynerStiner-Book-Cover.png" class="img-fluid" alt="Tending To Historical Wounds — Book Cover" style="max-height:550px; filter:grayscale(100%);">
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="subtitle wow fadeInUp" data-wow-delay=".3s">Coming Soon</div>
+                            <h2 class="lh-1 wow fadeInUp" data-wow-delay=".4s" style="text-transform:uppercase;">Tending To Historical Wounds</h2>
+                            <h5 class="wow fadeInUp" data-wow-delay=".5s" style="letter-spacing:2px;">Daughter of a Revolutionary</h5>
+                            <h5 class="wow fadeInUp" data-wow-delay=".5s" style="letter-spacing:2px;">STYNER STINER</h5>
+                            <div class="spacer-10"></div>
+                            <p class="lead wow fadeInUp" data-wow-delay=".6s">
+                                What does it mean to grow up as the daughter of a revolutionary — a man shaped by COINTELPRO, exile, incarceration, and return? This is the story behind the story. Sign up to be among the first to receive an early copy.
+                            </p>
+                            <div class="spacer-10"></div>
+                            <form id="book-signup-form-apply" class="wow fadeInUp" data-wow-delay=".7s" method="post" action="https://formsubmit.co/bb7f67fecf69fa7dd6fc51147181d88f">
+                                <input type="hidden" name="_subject" value="New Book Sign-Up — Tending To Historical Wounds">
+                                <input type="hidden" name="_next" value="https://www.watanistiner.com/book-thank-you">
+                                <input type="hidden" name="_captcha" value="false">
+                                <input type="text" name="_honey" style="display:none">
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-sm-4">
+                                        <input type="text" name="Name" class="form-control" placeholder="Your Name" required style="border:1px solid #555; padding:12px 16px; background:transparent; color:inherit;">
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="email" name="Email" class="form-control" placeholder="Your Email" required style="border:1px solid #555; padding:12px 16px; background:transparent; color:inherit;">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="submit" class="w-100 text-center d-block" style="background:#000; color:#fff; padding:12px 16px; font-weight:600; text-decoration:none; white-space:nowrap; border:none; cursor:pointer;">Sign Up</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+        <!-- content close -->
+
+        <!-- footer begin -->
+        <footer>
+            <div class="container-fluid">
+                <div class="px-2">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-menu-1 wow" data-wow-delay=".3s">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/watani.stiner" target="_blank">Facebook</a></li>
+                                    <li><a href="https://www.instagram.com/watani.stiner?igsh=NTc4MTIwNjQ2YQ==" target="_blank">Instagram</a></li>
+                                    <li><a href="https://steelbarsandrealscars.medium.com/" target="_blank">Medium</a></li>
+                                    <li><a href="https://youtu.be/g1q-nqDUsGk" target="_blank">YouTube</a></li>
+                                </ul>
+                                <p class="no-bottom">&copy; 2026 Watani Stiner Legacy Group.<br>All Rights Reserved.<br>Speaking &amp; Media Manager: Styner Stiner<br><a href="mailto:speaking@watanistiner.com">speaking@watanistiner.com</a></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 text-lg-end">
+                            <a href="/grants">
+                                <h2 class="fs-84 fw-800 pe-3 shuffle wow fadeInLeft" data-wow-delay=".3s">View Grants</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+    function updateCount(el){
+        var wrap = el.parentElement;
+        var countSpan = wrap.querySelector('.char-count span');
+        countSpan.textContent = el.value.length.toLocaleString();
+    }
+    </script>
+    <script src="js/plugins.js"></script>
+    <script src="js/stynerdev.js"></script>
+</body>
+</html>

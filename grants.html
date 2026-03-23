@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Watani Stiner — Grants & Scholarships</title>
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="images/favicon.svg">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
+    <meta content="Grants and scholarships supporting Black entrepreneurs, formerly incarcerated leaders, activists, COINTELPRO survivors, students, and community builders." name="description" >
+    <meta content="Watani Stiner, grants, scholarships, Black entrepreneurs, COINTELPRO, liberation, community" name="keywords" >
+    <!-- CSS Files -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="css/plugins.css" rel="stylesheet" type="text/css" >
+    <link href="css/style.css" rel="stylesheet" type="text/css" >
+    <link href="css/coloring.css" rel="stylesheet" type="text/css" >
+    <link id="colors" href="css/colors/scheme-02.css" rel="stylesheet" type="text/css" >
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Watani Stiner — Grants & Scholarships">
+    <meta property="og:description" content="Investing in liberation. Grants and scholarships for Black entrepreneurs, activists, survivors, students, and community builders.">
+    <meta property="og:image" content="https://pub-764d2f0e01a94716a648a3e4fdc92cf6.r2.dev/watanisiner.com/watanistiner-thumbnail.png">
+    <meta property="og:url" content="https://www.watanistiner.com/grants">
+
+    <style>
+        /* Category tabs */
+        .grant-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+        }
+        .grant-tab {
+            padding: 16px 32px;
+            background: transparent;
+            border: 2px solid #000;
+            border-right: none;
+            font-weight: 800;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all .3s;
+            text-decoration: none;
+            color: #000;
+        }
+        .grant-tab:last-child {
+            border-right: 2px solid #000;
+        }
+        .grant-tab:hover, .grant-tab.active {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Grant section - alternating */
+        .grant-section {
+            padding: 0;
+        }
+        .grant-row {
+            display: flex;
+            min-height: 500px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .grant-row.reverse {
+            flex-direction: row-reverse;
+        }
+        .grant-img-col {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        .grant-img-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .6s;
+        }
+        .grant-row:hover .grant-img-col img {
+            transform: scale(1.03);
+        }
+        .grant-content-col {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 50px 45px;
+        }
+        .grant-content-inner {
+            max-width: 500px;
+        }
+        .grant-row.reverse .grant-content-col {
+            justify-content: flex-end;
+        }
+        .grant-category-tag {
+            display: inline-block;
+            padding: 4px 14px;
+            border: 1px solid #000;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        .grant-tagline {
+            font-style: italic;
+            font-size: 16px;
+            opacity: 0.6;
+            margin-bottom: 12px;
+        }
+        .grant-content-inner h2 {
+            font-size: 32px;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+        .grant-audience {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .grant-details {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .grant-detail-item {
+            text-align: center;
+        }
+        .grant-detail-amount {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1;
+        }
+        .grant-detail-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.5;
+            margin-top: 4px;
+        }
+        .grant-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        .grant-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            text-align: center;
+            transition: all .3s;
+        }
+        .grant-btn-apply {
+            background: #000;
+            color: #fff;
+        }
+        .grant-btn-apply:hover {
+            background: #333;
+            color: #fff;
+        }
+        .grant-btn-donate {
+            background: transparent;
+            color: #000;
+            border: 2px solid #000;
+        }
+        .grant-btn-donate:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Category divider */
+        .category-divider {
+            background: #000;
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+            margin: 40px 0;
+        }
+        .category-divider h3 {
+            color: #fff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        /* Fund the Future CTA */
+        .fund-cta {
+            background: #000;
+            color: #fff;
+            padding: 80px 40px;
+            text-align: center;
+            border-radius: 12px;
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+        .fund-cta h2 {
+            color: #fff;
+            font-size: 48px;
+        }
+        .fund-cta p {
+            opacity: 0.6;
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+        .fund-cta .grant-btn-apply {
+            background: #fff;
+            color: #000;
+            padding: 16px 48px;
+            letter-spacing: 3px;
+        }
+        .fund-cta .grant-btn-apply:hover {
+            opacity: 0.85;
+            color: #000;
+        }
+
+        @media (max-width: 991px) {
+            .grant-row, .grant-row.reverse {
+                flex-direction: column;
+            }
+            .grant-img-col {
+                height: 300px;
+            }
+            .grant-content-col {
+                padding: 40px 24px;
+            }
+            .grant-content-inner {
+                max-width: 100%;
+            }
+            .grant-content-inner h2 {
+                font-size: 26px;
+            }
+            .grant-detail-amount {
+                font-size: 26px;
+            }
+            .grant-buttons {
+                flex-direction: column;
+            }
+            .grant-btn {
+                text-align: center;
+            }
+            .grant-tabs {
+                flex-wrap: wrap;
+            }
+            .grant-tab {
+                padding: 12px 18px;
+                font-size: 11px;
+                letter-spacing: 1px;
+                flex: 1;
+                text-align: center;
+                border-right: 2px solid #000;
+            }
+            .fund-cta {
+                padding: 50px 24px;
+            }
+            .fund-cta h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body class="light-scheme">
+    <div id="wrapper">
+        <div class="float-text show-on-scroll">
+            <span><a href="#">Scroll to top</a></span>
+        </div>
+        <div class="scrollbar-v show-on-scroll"></div>
+
+        <!-- page preloader begin -->
+        <div id="de-loader"></div>
+        <!-- page preloader close -->
+
+        <!-- content begin -->
+        <div class="section-dark no-bottom no-top" id="content">
+
+            <div id="top"></div>
+
+            <section class="no-top">
+
+                <div class="text-fit-wrapper">
+                    <h1 class="text-fit wow">GRANTS</h1>
+
+                    <!-- Mobile hamburger toggle -->
+                    <div id="mobile-menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open'); this.classList.toggle('active');">
+                        <span></span><span></span><span></span>
+                    </div>
+
+                    <!-- Desktop nav -->
+                    <div class="d-menu-1 wow d-none d-lg-block" data-wow-delay=".3s">
+                        <ul>
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/engagements">Engagements</a></li>
+                            <li><a href="/media">Media</a></li>
+                            <li class="active"><a href="/grants">Grants</a></li>
+                            <li><a href="/contact">Book Watani</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Mobile nav panel -->
+                    <div id="mobile-nav">
+                        <div id="mobile-nav-close" onclick="document.getElementById('mobile-nav').classList.remove('open'); document.getElementById('mobile-menu-toggle').classList.remove('active');">close</div>
+                        <ul>
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/engagements">Engagements</a></li>
+                            <li><a href="/media">Media</a></li>
+                            <li class="active"><a href="/grants">Grants</a></li>
+                            <li><a href="/contact">Book Watani</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <style>
+                #mobile-menu-toggle {
+                    display: none;
+                    position: relative;
+                    float: right;
+                    margin-top: -10px;
+                    margin-right: 20px;
+                    cursor: pointer;
+                    z-index: 1010;
+                    width: 30px;
+                    height: 22px;
+                }
+                #mobile-menu-toggle span {
+                    display: block;
+                    width: 30px;
+                    height: 3px;
+                    background: #000;
+                    margin-bottom: 5px;
+                    transition: .3s;
+                    border-radius: 2px;
+                }
+                .dark-scheme #mobile-menu-toggle span { background: #fff; }
+                #mobile-menu-toggle.active span:nth-child(1) { opacity: 0; }
+                #mobile-menu-toggle.active span:nth-child(2) { opacity: 0; }
+                #mobile-menu-toggle.active span:nth-child(3) { opacity: 0; }
+                #mobile-nav {
+                    display: none;
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height .4s ease, padding .4s ease;
+                    padding: 0 20px;
+                }
+                #mobile-nav.open {
+                    max-height: 350px;
+                    padding: 20px 20px 30px;
+                }
+                #mobile-nav ul { list-style: none; padding: 0; margin: 0; }
+                #mobile-nav ul li { margin-bottom: 16px; }
+                #mobile-nav ul li a {
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 18px;
+                    color: var(--title-font-color);
+                    text-decoration: none;
+                    letter-spacing: 1px;
+                }
+                .dark-scheme #mobile-nav ul li a { color: #fff; }
+                #mobile-nav-close {
+                    text-align: right;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    letter-spacing: 2px;
+                    cursor: pointer;
+                    margin-bottom: 20px;
+                    color: var(--title-font-color);
+                }
+                .dark-scheme #mobile-nav-close { color: #fff; }
+                @media (max-width: 991px) {
+                    #mobile-menu-toggle { display: block; }
+                    #mobile-nav { display: block; }
+                }
+                </style>
+
+                <div class="spacer-double"></div>
+
+                <div class="container">
+                    <div class="row g-4 gx-5">
+                        <div class="col-lg-8">
+                            <div class="subtitle wow fadeInUp" data-wow-delay=".3s">Investing in Liberation</div>
+                            <h1 class="lh-1 wow fadeInUp" data-wow-delay=".4s">Grants & Scholarships</h1>
+                            <div class="spacer-10"></div>
+                            <p class="lead wow fadeInUp" data-wow-delay=".5s">
+                                The struggle didn't end with survival — it continues through investment. These grants exist to fund the people and the work that systems were designed to destroy.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="spacer-single"></div>
+
+                    <!-- Category Tabs -->
+                    <div class="grant-tabs wow fadeInUp" data-wow-delay=".6s">
+                        <a href="#entrepreneurship" class="grant-tab active">Entrepreneurship</a>
+                        <a href="#movement" class="grant-tab">Movement & Activism</a>
+                        <a href="#education" class="grant-tab">Education</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- ENTREPRENEURSHIP -->
+            <!-- ======================== -->
+            <div id="entrepreneurship" class="category-divider wow fadeInUp">
+                <h3>Entrepreneurship</h3>
+            </div>
+
+            <!-- 1. The Watani Fund — text left, image right -->
+            <div class="grant-row wow fadeInUp">
+                <div class="grant-content-col">
+                    <div class="grant-content-inner">
+                        <span class="grant-category-tag">Entrepreneurship</span>
+                        <p class="grant-tagline">"Liberation starts with investment"</p>
+                        <h2>The Watani Fund</h2>
+                        <p class="grant-audience">For Black entrepreneurs and community builders who are creating economic power from the ground up.</p>
+                        <div class="grant-details">
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$1,000</div>
+                                <div class="grant-detail-label">Per Month</div>
+                            </div>
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$15</div>
+                                <div class="grant-detail-label">Application Fee</div>
+                            </div>
+                        </div>
+                        <div class="grant-buttons">
+                            <a href="/apply" class="grant-btn grant-btn-apply">Apply Now</a>
+                            <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" class="grant-btn grant-btn-donate">Fund This Grant</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grant-img-col">
+                    <img src="images/Grant-Images/a-diverse-group-of-young-friends-and-entrepreneurs-2026-01-07-06-12-23-utc.jpg" alt="The Watani Fund">
+                </div>
+            </div>
+
+            <!-- 2. The Stiner Legacy Grant — image left, text right -->
+            <div class="grant-row reverse wow fadeInUp">
+                <div class="grant-content-col">
+                    <div class="grant-content-inner">
+                        <span class="grant-category-tag">Entrepreneurship</span>
+                        <p class="grant-tagline">"Building what they tried to destroy"</p>
+                        <h2>The Stiner Legacy Grant</h2>
+                        <p class="grant-audience">For formerly incarcerated entrepreneurs rebuilding their lives and communities through business ownership.</p>
+                        <div class="grant-details">
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$500</div>
+                                <div class="grant-detail-label">Per Month</div>
+                            </div>
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$10</div>
+                                <div class="grant-detail-label">Application Fee</div>
+                            </div>
+                        </div>
+                        <div class="grant-buttons">
+                            <a href="/apply" class="grant-btn grant-btn-apply">Apply Now</a>
+                            <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" class="grant-btn grant-btn-donate">Fund This Grant</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grant-img-col">
+                    <img src="images/Grant-Images/black-men-stylishly-clothed-standing-and-talking-o-2026-03-18-14-38-47-utc.jpg" alt="The Stiner Legacy Grant">
+                </div>
+            </div>
+
+            <!-- 3. The Liberation Builders Grant — text left, image right -->
+            <div class="grant-row wow fadeInUp">
+                <div class="grant-content-col">
+                    <div class="grant-content-inner">
+                        <span class="grant-category-tag">Entrepreneurship</span>
+                        <p class="grant-tagline">"Structure over slogans"</p>
+                        <h2>The Liberation Builders Grant</h2>
+                        <p class="grant-audience">For Black men building businesses in their communities — turning vision into infrastructure.</p>
+                        <div class="grant-details">
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$1,000</div>
+                                <div class="grant-detail-label">Per Month</div>
+                            </div>
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$15</div>
+                                <div class="grant-detail-label">Application Fee</div>
+                            </div>
+                        </div>
+                        <div class="grant-buttons">
+                            <a href="/apply" class="grant-btn grant-btn-apply">Apply Now</a>
+                            <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" class="grant-btn grant-btn-donate">Fund This Grant</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grant-img-col">
+                    <img src="images/Grant-Images/african-stylish-and-handsome-man-in-traditional-ou-2026-03-18-13-54-17-utc.jpg" alt="The Liberation Builders Grant">
+                </div>
+            </div>
+
+            <!-- ======================== -->
+            <!-- MOVEMENT & ACTIVISM -->
+            <!-- ======================== -->
+            <div id="movement" class="category-divider wow fadeInUp">
+                <h3>Movement &amp; Activism</h3>
+            </div>
+
+            <!-- 4. The Watani Freedom Fund — image left, text right -->
+            <div class="grant-row reverse wow fadeInUp">
+                <div class="grant-content-col">
+                    <div class="grant-content-inner">
+                        <span class="grant-category-tag">Movement &amp; Activism</span>
+                        <p class="grant-tagline">"Free people build free futures"</p>
+                        <h2>The Watani Freedom Fund</h2>
+                        <p class="grant-audience">For activists, organizers, and movement builders who are doing the frontline work of liberation.</p>
+                        <div class="grant-details">
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$500</div>
+                                <div class="grant-detail-label">Per Month</div>
+                            </div>
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$10</div>
+                                <div class="grant-detail-label">Application Fee</div>
+                            </div>
+                        </div>
+                        <div class="grant-buttons">
+                            <a href="/apply" class="grant-btn grant-btn-apply">Apply Now</a>
+                            <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" class="grant-btn grant-btn-donate">Fund This Grant</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grant-img-col">
+                    <img src="images/Grant-Images/motivation-is-what-gets-you-started-2026-01-09-11-05-39-utc.jpg" alt="The Watani Freedom Fund">
+                </div>
+            </div>
+
+            <!-- 5. The COINTELPRO Survivors Grant — text left, image right -->
+            <div class="grant-row wow fadeInUp">
+                <div class="grant-content-col">
+                    <div class="grant-content-inner">
+                        <span class="grant-category-tag">Movement &amp; Activism</span>
+                        <p class="grant-tagline">"They tried to erase us. We're still here."</p>
+                        <h2>The COINTELPRO Survivors Grant</h2>
+                        <p class="grant-audience">For descendants and survivors of political repression — honoring what was endured and investing in what endures.</p>
+                        <div class="grant-details">
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$1,000</div>
+                                <div class="grant-detail-label">Per Month</div>
+                            </div>
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$15</div>
+                                <div class="grant-detail-label">Application Fee</div>
+                            </div>
+                        </div>
+                        <div class="grant-buttons">
+                            <a href="/apply" class="grant-btn grant-btn-apply">Apply Now</a>
+                            <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" class="grant-btn grant-btn-donate">Fund This Grant</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grant-img-col">
+                    <img src="images/Grant-Images/embrace-the-history-that-brought-you-here-2026-01-09-11-14-05-utc.jpg" alt="The COINTELPRO Survivors Grant">
+                </div>
+            </div>
+
+            <!-- ======================== -->
+            <!-- EDUCATION -->
+            <!-- ======================== -->
+            <div id="education" class="category-divider wow fadeInUp">
+                <h3>Education</h3>
+            </div>
+
+            <!-- 6. The Watani Stiner Scholarship — image left, text right -->
+            <div class="grant-row reverse wow fadeInUp">
+                <div class="grant-content-col">
+                    <div class="grant-content-inner">
+                        <span class="grant-category-tag">Education</span>
+                        <p class="grant-tagline">"Knowledge is the foundation of freedom"</p>
+                        <h2>The Watani Stiner Scholarship for Revolutionary Thinkers</h2>
+                        <p class="grant-audience">For students studying history, political science, and journalism — the next generation of truth-tellers.</p>
+                        <div class="grant-details">
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$500</div>
+                                <div class="grant-detail-label">Per Month</div>
+                            </div>
+                            <div class="grant-detail-item">
+                                <div class="grant-detail-amount">$10</div>
+                                <div class="grant-detail-label">Application Fee</div>
+                            </div>
+                        </div>
+                        <div class="grant-buttons">
+                            <a href="/apply" class="grant-btn grant-btn-apply">Apply Now</a>
+                            <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" class="grant-btn grant-btn-donate">Fund This Grant</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grant-img-col">
+                    <img src="images/Grant-Images/group-of-young-adult-black-men-and-women-celebrati-2026-01-09-12-12-57-utc.jpg" alt="The Watani Stiner Scholarship">
+                </div>
+            </div>
+
+            <!-- Mission Section -->
+            <section>
+                <div class="container">
+                    <div class="row g-4 gx-5">
+                        <div class="col-lg-2">
+                            <div class="subtitle wow fadeInUp" data-wow-delay=".3s">The Mission</div>
+                        </div>
+                        <div class="col-lg-10 wow fadeInUp" data-wow-delay=".4s">
+                            <h2 class="lh-1">Why These Grants Exist</h2>
+                            <div class="spacer-10"></div>
+                            <div class="row g-4">
+                                <div class="col-sm-6">
+                                    <p>COINTELPRO didn't just target individuals — it dismantled the economic, educational, and organizational infrastructure of Black communities. These grants are an act of restoration. They fund the builders, the thinkers, the organizers, and the survivors who are doing the work that systems tried to prevent.</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p>Every application fee goes directly toward sustaining these funds. Every donation multiplies the impact. This is not charity — it is an investment in the people and communities that have earned it through generations of resistance, resilience, and resolve.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fund the Future CTA -->
+            <section class="no-top">
+                <div class="container-fluid p-0">
+                    <div class="fund-cta wow fadeInUp">
+                        <h2 class="lh-1">Fund the Future</h2>
+                        <div class="spacer-10"></div>
+                        <p>Your contribution goes directly to supporting grant recipients. Every dollar builds what they tried to destroy.</p>
+                        <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" class="grant-btn grant-btn-apply">Donate Now</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <!-- content close -->
+
+        <!-- footer begin -->
+        <footer>
+            <div class="container-fluid">
+                <div class="px-2">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-menu-1 wow" data-wow-delay=".3s">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/watani.stiner" target="_blank">Facebook</a></li>
+                                    <li><a href="https://www.instagram.com/watani.stiner?igsh=NTc4MTIwNjQ2YQ==" target="_blank">Instagram</a></li>
+                                    <li><a href="https://steelbarsandrealscars.medium.com/" target="_blank">Medium</a></li>
+                                    <li><a href="https://youtu.be/g1q-nqDUsGk" target="_blank">YouTube</a></li>
+                                </ul>
+
+                                <p class="no-bottom">&copy; 2026 Watani Stiner Legacy Group.<br>All Rights Reserved.<br>Speaking &amp; Media Manager: Styner Stiner<br><a href="mailto:speaking@watanistiner.com">speaking@watanistiner.com</a></p>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 text-lg-end">
+                            <a href="/contact">
+                                <h2 class="fs-84 fw-800 pe-3 shuffle wow fadeInLeft" data-wow-delay=".3s">Book Watani</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- footer close -->
+    </div>
+
+    <!-- Smooth scroll for tabs -->
+    <script>
+    document.querySelectorAll('.grant-tab').forEach(function(tab){
+        tab.addEventListener('click', function(e){
+            e.preventDefault();
+            var target = document.querySelector(this.getAttribute('href'));
+            if(target){
+                target.scrollIntoView({behavior:'smooth', block:'start'});
+                document.querySelectorAll('.grant-tab').forEach(function(t){ t.classList.remove('active'); });
+                this.classList.add('active');
+            }
+        });
+    });
+    </script>
+
+    <!-- Javascript Files -->
+    <script src="js/plugins.js"></script>
+    <script src="js/stynerdev.js"></script>
+
+</body>
+</html>
