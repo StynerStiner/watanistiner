@@ -54,7 +54,25 @@
 
                 <div class="text-fit-wrapper">
                     <h1 class="text-fit wow">Book Watani</h1>
-                    <div class="d-menu-1 wow" data-wow-delay=".3s">
+                    <!-- Mobile hamburger toggle -->
+                    <div id="mobile-menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open'); this.classList.toggle('active');">
+                        <span></span><span></span><span></span>
+                    </div>
+
+                    <!-- Desktop nav -->
+                    <div class="d-menu-1 wow d-none d-lg-block" data-wow-delay=".3s">
+                        <ul>
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/engagements">Engagements</a></li>
+                            <li><a href="/media">Media</a></li>
+                            <li class="active"><a href="/contact">Book Watani</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Mobile nav panel -->
+                    <div id="mobile-nav">
+                        <div id="mobile-nav-close" onclick="document.getElementById('mobile-nav').classList.remove('open'); document.getElementById('mobile-menu-toggle').classList.remove('active');">close</div>
                         <ul>
                             <li><a href="/home">Home</a></li>
                             <li><a href="/about">About</a></li>
@@ -64,6 +82,82 @@
                         </ul>
                     </div>
                 </div>
+
+                <style>
+                /* Mobile hamburger button */
+                #mobile-menu-toggle {
+                    display: none;
+                    position: relative;
+                    float: right;
+                    margin-top: -10px;
+                    margin-right: 20px;
+                    cursor: pointer;
+                    z-index: 1010;
+                    width: 30px;
+                    height: 22px;
+                }
+                #mobile-menu-toggle span {
+                    display: block;
+                    width: 30px;
+                    height: 3px;
+                    background: #000;
+                    margin-bottom: 5px;
+                    transition: .3s;
+                    border-radius: 2px;
+                }
+                .dark-scheme #mobile-menu-toggle span { background: #fff; }
+
+                /* Hide lines when menu is open */
+                #mobile-menu-toggle.active span:nth-child(1) { opacity: 0; }
+                #mobile-menu-toggle.active span:nth-child(2) { opacity: 0; }
+                #mobile-menu-toggle.active span:nth-child(3) { opacity: 0; }
+
+                /* Mobile nav panel */
+                #mobile-nav {
+                    display: none;
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height .4s ease, padding .4s ease;
+                    padding: 0 20px;
+                }
+                #mobile-nav.open {
+                    max-height: 350px;
+                    padding: 20px 20px 30px;
+                }
+                #mobile-nav ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+                #mobile-nav ul li {
+                    margin-bottom: 16px;
+                }
+                #mobile-nav ul li a {
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 18px;
+                    color: var(--title-font-color);
+                    text-decoration: none;
+                    letter-spacing: 1px;
+                }
+                .dark-scheme #mobile-nav ul li a { color: #fff; }
+                #mobile-nav-close {
+                    text-align: right;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    letter-spacing: 2px;
+                    cursor: pointer;
+                    margin-bottom: 20px;
+                    color: var(--title-font-color);
+                }
+                .dark-scheme #mobile-nav-close { color: #fff; }
+
+                @media (max-width: 991px) {
+                    #mobile-menu-toggle { display: block; }
+                    #mobile-nav { display: block; }
+                }
+                </style>
             </section>
 
             <section class="no-top">
@@ -117,6 +211,15 @@
                                 </div>
                             </form>
 
+                            <div class="spacer-single"></div>
+                            <div class="wow fadeInUp" data-wow-delay=".5s">
+                                <h4>Available For</h4>
+                                <p style="line-height:2.2;">
+                                    Keynotes &bull; Classroom Visits &bull; Public Talks &bull; Panels &bull; Community Dialogues &bull; Intergenerational Conversations &bull; Virtual &amp; In-Person Engagements
+                                </p>
+                                <p style="opacity:0.6;">Location: Oakland, California</p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -143,40 +246,251 @@
 
             <section class="no-top">
                 <div class="container">
-                    <div class="row g-4">
+                    <div class="row g-2 g-lg-4 mb-4">
                         <div class="col-lg-2">
                             <div class="subtitle wow fadeInUp" data-wow-delay=".3s">Contact</div>
                         </div>
                         <div class="col-lg-10 wow fadeInUp" data-wow-delay=".4s">
-                            <h3 class="fw-bold">Contact Information</h3>
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="field-set">
-                                        <span class="d-label fw-bold">Email</span>
-                                        <p><a href="mailto:speaking@watanistiner.com">speaking@watanistiner.com</a></p>
-                                        <p><a href="mailto:booking@watanistiner.com">booking@watanistiner.com</a></p>
-                                        <p><a href="mailto:press@watanistiner.com">press@watanistiner.com</a></p>
-                                        <p><a href="mailto:media@watanistiner.com">media@watanistiner.com</a></p>
-                                    </div>
+                            <h2 class="lh-1">Get in Touch</h2>
+                        </div>
+                    </div>
+
+                    <!-- Desktop: horizontal bar -->
+                    <div class="row g-0 wow fadeInUp d-none d-md-flex" data-wow-delay=".5s">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="ci-block">
+                                <div class="ci-icon">&#9993;</div>
+                                <h5 class="ci-title">Email</h5>
+                                <div class="ci-links">
+                                    <a href="mailto:speaking@watanistiner.com">speaking@watanistiner.com</a>
+                                    <a href="mailto:booking@watanistiner.com">booking@watanistiner.com</a>
+                                    <a href="mailto:press@watanistiner.com">press@watanistiner.com</a>
+                                    <a href="mailto:media@watanistiner.com">media@watanistiner.com</a>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="field-set">
-                                        <span class="d-label fw-bold">Phone</span>
-                                        <p><a href="tel:+13104223484">(310) 422-xxxx</a></p>
-                                    </div>
-                                    <div class="field-set">
-                                        <span class="d-label fw-bold">Location</span>
-                                        <p>Oakland, CA</p>
-                                    </div>
-                                    <div class="field-set">
-                                        <span class="d-label fw-bold">Websites</span>
-                                        <p><a href="https://www.watanistiner.com" target="_blank">www.watanistiner.com</a> / <a href="https://www.stynerdev.com" target="_blank">www.stynerdev.com</a></p>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="ci-block">
+                                <div class="ci-icon">&#9742;</div>
+                                <h5 class="ci-title">Phone</h5>
+                                <div class="ci-links">
+                                    <a href="tel:+1310422xxxx">(310) 422-xxxx</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="ci-block">
+                                <div class="ci-icon">&#9679;</div>
+                                <h5 class="ci-title">Location</h5>
+                                <div class="ci-links">
+                                    <span>Oakland, California</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="ci-block">
+                                <div class="ci-icon">&#9741;</div>
+                                <h5 class="ci-title">Online</h5>
+                                <div class="ci-links">
+                                    <a href="https://www.watanistiner.com" target="_blank">watanistiner.com</a>
+                                    <a href="https://www.stynerdev.com" target="_blank">stynerdev.com</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Mobile: collapsible accordion -->
+                    <div class="d-md-none ci-accordion wow fadeInUp" data-wow-delay=".5s">
+                        <div class="ci-acc-item open">
+                            <div class="ci-acc-header" onclick="toggleCiAcc(this)">
+                                <span>&#9993; &nbsp; Email</span>
+                                <span class="ci-acc-arrow">&#8722;</span>
+                            </div>
+                            <div class="ci-acc-body">
+                                <a href="mailto:speaking@watanistiner.com">speaking@watanistiner.com</a>
+                                <a href="mailto:booking@watanistiner.com">booking@watanistiner.com</a>
+                                <a href="mailto:press@watanistiner.com">press@watanistiner.com</a>
+                                <a href="mailto:media@watanistiner.com">media@watanistiner.com</a>
+                            </div>
+                        </div>
+                        <div class="ci-acc-item">
+                            <div class="ci-acc-header" onclick="toggleCiAcc(this)">
+                                <span>&#9742; &nbsp; Phone</span>
+                                <span class="ci-acc-arrow">&#43;</span>
+                            </div>
+                            <div class="ci-acc-body">
+                                <a href="tel:+1310422xxxx">(310) 422-xxxx</a>
+                            </div>
+                        </div>
+                        <div class="ci-acc-item">
+                            <div class="ci-acc-header" onclick="toggleCiAcc(this)">
+                                <span>&#9679; &nbsp; Location</span>
+                                <span class="ci-acc-arrow">&#43;</span>
+                            </div>
+                            <div class="ci-acc-body">
+                                <span>Oakland, California</span>
+                            </div>
+                        </div>
+                        <div class="ci-acc-item">
+                            <div class="ci-acc-header" onclick="toggleCiAcc(this)">
+                                <span>&#9741; &nbsp; Online</span>
+                                <span class="ci-acc-arrow">&#43;</span>
+                            </div>
+                            <div class="ci-acc-body">
+                                <a href="https://www.watanistiner.com" target="_blank">watanistiner.com</a>
+                                <a href="https://www.stynerdev.com" target="_blank">stynerdev.com</a>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                    function toggleCiAcc(header){
+                        var item = header.parentElement;
+                        var arrow = header.querySelector('.ci-acc-arrow');
+                        if(item.classList.contains('open')){
+                            item.classList.remove('open');
+                            arrow.innerHTML = '+';
+                        } else {
+                            item.classList.add('open');
+                            arrow.innerHTML = '−';
+                        }
+                    }
+                    </script>
                 </div>
+
+                <style>
+                .ci-block {
+                    background: #000;
+                    color: #fff;
+                    padding: 40px 30px;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    border-right: 1px solid rgba(255,255,255,0.1);
+                }
+                .ci-block:hover {
+                    background: #111;
+                }
+                .row.g-0 > .col-md-6:first-child .ci-block,
+                .row.g-0 > .col-lg-3:first-child .ci-block {
+                    border-radius: 12px 0 0 12px;
+                }
+                .row.g-0 > .col-md-6:last-child .ci-block,
+                .row.g-0 > .col-lg-3:last-child .ci-block {
+                    border-radius: 0 12px 12px 0;
+                    border-right: none;
+                }
+                .ci-icon {
+                    font-size: 28px;
+                    margin-bottom: 20px;
+                    opacity: 0.4;
+                }
+                .ci-title {
+                    color: #fff;
+                    text-transform: uppercase;
+                    letter-spacing: 3px;
+                    font-size: 13px;
+                    margin-bottom: 18px;
+                    opacity: 0.6;
+                }
+                .ci-links {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                }
+                .ci-links a, .ci-links span {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 15px;
+                    font-weight: 500;
+                    transition: opacity .3s;
+                }
+                .ci-links a:hover {
+                    opacity: 0.6;
+                }
+                /* Mobile accordion */
+                .ci-accordion {
+                    background: #000;
+                    border-radius: 12px;
+                    overflow: hidden;
+                }
+                .ci-acc-item {
+                    border-bottom: 1px solid rgba(255,255,255,0.1);
+                }
+                .ci-acc-item:last-child {
+                    border-bottom: none;
+                }
+                .ci-acc-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px 24px;
+                    cursor: pointer;
+                    color: #fff;
+                    font-weight: 700;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    transition: background .3s;
+                }
+                .ci-acc-header:hover {
+                    background: rgba(255,255,255,0.05);
+                }
+                .ci-acc-arrow {
+                    font-size: 20px;
+                    opacity: 0.5;
+                }
+                .ci-acc-body {
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height .3s ease, padding .3s ease;
+                    padding: 0 24px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                }
+                .ci-acc-item.open .ci-acc-body {
+                    max-height: 200px;
+                    padding: 0 24px 20px;
+                }
+                .ci-acc-body a, .ci-acc-body span {
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 15px;
+                    font-weight: 500;
+                    opacity: 0.8;
+                }
+                .ci-acc-body a:hover {
+                    opacity: 0.6;
+                }
+
+                @media (max-width: 767px) {
+                    .ci-block {
+                        padding: 28px 24px;
+                        border-right: none;
+                        border-bottom: 1px solid rgba(255,255,255,0.1);
+                        border-radius: 0 !important;
+                    }
+                    .row.g-0 > .col-md-6,
+                    .row.g-0 > .col-lg-3 {
+                        width: 100% !important;
+                        flex: 0 0 100% !important;
+                        max-width: 100% !important;
+                    }
+                    .row.g-0 > .col-md-6:first-child .ci-block,
+                    .row.g-0 > .col-lg-3:first-child .ci-block {
+                        border-radius: 12px 12px 0 0 !important;
+                    }
+                    .row.g-0 > .col-md-6:last-child .ci-block,
+                    .row.g-0 > .col-lg-3:last-child .ci-block {
+                        border-radius: 0 0 12px 12px !important;
+                        border-bottom: none;
+                    }
+                    .ci-links a, .ci-links span {
+                        font-size: 14px;
+                        word-break: break-word;
+                    }
+                }
+                </style>
             </section>
 
         </div>

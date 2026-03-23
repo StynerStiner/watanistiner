@@ -71,7 +71,14 @@
 
                 <div class="text-fit-wrapper">
                     <h1 class="text-fit wow">WATANI STINER</h1>
-                    <div class="d-menu-1 wow" data-wow-delay=".3s">
+
+                    <!-- Mobile hamburger toggle -->
+                    <div id="mobile-menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open'); this.classList.toggle('active');">
+                        <span></span><span></span><span></span>
+                    </div>
+
+                    <!-- Desktop nav -->
+                    <div class="d-menu-1 wow d-none d-lg-block" data-wow-delay=".3s">
                         <ul>
                             <li class="active"><a href="/home">Home</a></li>
                             <li><a href="/about">About</a></li>
@@ -80,22 +87,148 @@
                             <li><a href="/contact">Book Watani</a></li>
                         </ul>
                     </div>
+
+                    <!-- Mobile nav panel -->
+                    <div id="mobile-nav">
+                        <div id="mobile-nav-close" onclick="document.getElementById('mobile-nav').classList.remove('open'); document.getElementById('mobile-menu-toggle').classList.remove('active');">close</div>
+                        <ul>
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/engagements">Engagements</a></li>
+                            <li><a href="/media">Media</a></li>
+                            <li><a href="/contact">Book Watani</a></li>
+                        </ul>
+                    </div>
                 </div>
 
+                <style>
+                /* Mobile hamburger button */
+                #mobile-menu-toggle {
+                    display: none;
+                    position: relative;
+                    float: right;
+                    margin-top: -10px;
+                    margin-right: 20px;
+                    cursor: pointer;
+                    z-index: 1010;
+                    width: 30px;
+                    height: 22px;
+                }
+                #mobile-menu-toggle span {
+                    display: block;
+                    width: 30px;
+                    height: 3px;
+                    background: #000;
+                    margin-bottom: 5px;
+                    transition: .3s;
+                    border-radius: 2px;
+                }
+                .dark-scheme #mobile-menu-toggle span { background: #fff; }
 
-                <div class="spacer-double"></div>
+                /* Hide lines when menu is open */
+                #mobile-menu-toggle.active span:nth-child(1) { opacity: 0; }
+                #mobile-menu-toggle.active span:nth-child(2) { opacity: 0; }
+                #mobile-menu-toggle.active span:nth-child(3) { opacity: 0; }
+
+                /* Mobile nav panel */
+                #mobile-nav {
+                    display: none;
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height .4s ease, padding .4s ease;
+                    padding: 0 20px;
+                }
+                #mobile-nav.open {
+                    max-height: 350px;
+                    padding: 20px 20px 30px;
+                }
+                #mobile-nav ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+                #mobile-nav ul li {
+                    margin-bottom: 16px;
+                }
+                #mobile-nav ul li a {
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 18px;
+                    color: var(--title-font-color);
+                    text-decoration: none;
+                    letter-spacing: 1px;
+                }
+                .dark-scheme #mobile-nav ul li a { color: #fff; }
+                #mobile-nav-close {
+                    text-align: right;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    letter-spacing: 2px;
+                    cursor: pointer;
+                    margin-bottom: 20px;
+                    color: var(--title-font-color);
+                }
+                .dark-scheme #mobile-nav-close { color: #fff; }
+
+                @media (max-width: 991px) {
+                    #mobile-menu-toggle { display: block; }
+                    #mobile-nav { display: block; }
+                    .home-spacer-top { height: 20px !important; }
+                    .home-spacer-inner { display: none !important; }
+                }
+                </style>
+
+
+                <div class="spacer-double home-spacer-top"></div>
 
                 <div class="container">
-                    <div class="spacer-double d-lg-none d-sm-block"></div>
+                    <div class="spacer-double d-lg-none d-sm-block home-spacer-inner"></div>
                     <div class="row align-items-center g-4 gx-5">
                         <div class="col-lg-6">
                             <div class="relative">
                                 <div class="subtitle wow fadeInUp" data-wow-delay=".3s">Available for Speaking</div>
                                 <h1 class="lh-1 wow fadeInUp" data-wow-delay=".4s">Lived History. Global Perspective. Disciplined Analysis.</h1>
                             </div>
-                            <p class="lead wow fadeInUp" data-wow-delay=".5s">
-                                Black Power Movement Elder. COINTELPRO Survivor. Author. Speaker. His life is not a chapter in someone else's book. It is the book.
+                            <p class="lead wow fadeInUp" data-wow-delay=".5s" style="min-height:3em;">
+                                <span id="typewriter-hero" style="border-right:2px solid #000; padding-right:4px; animation:blink-hero .7s step-end infinite;"></span>
                             </p>
+                            <style>
+                            @keyframes blink-hero { 50% { border-color: transparent; } }
+                            .dark-scheme #typewriter-hero { border-right-color: #fff; }
+                            </style>
+                            <script>
+                            (function(){
+                                var text = "Black Power Movement Elder. COINTELPRO Survivor. Author. Speaker. His life is not a chapter in someone else\u2019s book. It is the book.";
+                                var el = document.getElementById("typewriter-hero");
+                                var i = 0;
+                                function typeChar(){
+                                    if(i < text.length){
+                                        el.textContent += text.charAt(i);
+                                        i++;
+                                        setTimeout(typeChar, 40);
+                                    } else {
+                                        setTimeout(eraseChar, 2000);
+                                    }
+                                }
+                                function eraseChar(){
+                                    if(el.textContent.length > 0){
+                                        el.textContent = el.textContent.slice(0, -1);
+                                        setTimeout(eraseChar, 20);
+                                    } else {
+                                        i = 0;
+                                        setTimeout(typeChar, 500);
+                                    }
+                                }
+                                var observer = new IntersectionObserver(function(entries){
+                                    if(entries[0].isIntersecting){
+                                        typeChar();
+                                        observer.disconnect();
+                                    }
+                                }, {threshold: 0.5});
+                                observer.observe(el);
+                            })();
+                            </script>
 
                             <div class="spacer-10"></div>
 
@@ -110,26 +243,26 @@
 
                     <div class="spacer-double"></div>
 
-                    <div class="row g-4">
-                        <div class="col-md-3 col-sm-6 mb-sm-30">
+                    <div class="row g-3 g-md-4 stats-row">
+                        <div class="col-6 col-md-3">
                             <div class="de_count text-center fs-15 wow fadeInRight" data-wow-delay=".0s">
                                 <h3 class="fs-48 mb-1"><span class="timer" data-to="50" data-speed="3000">0</span>+</h3>
                                 <div class="fs-15">Years of Activism</div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 mb-sm-30">
+                        <div class="col-6 col-md-3">
                             <div class="de_count text-center fs-15 wow fadeInRight" data-wow-delay=".2s">
                                 <h3 class="fs-48 mb-1"><span class="timer" data-to="100" data-speed="3000">0</span>+</h3>
                                 <div class="fs-15">Speaking Engagements</div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 mb-sm-30">
+                        <div class="col-6 col-md-3">
                             <div class="de_count text-center fs-15 wow fadeInRight" data-wow-delay=".4s">
                                 <h3 class="fs-48 mb-1"><span class="timer" data-to="3" data-speed="3000">0</span></h3>
                                 <div class="fs-15">Countries Lived</div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 mb-sm-30">
+                        <div class="col-6 col-md-3">
                             <div class="de_count text-center fs-15 wow fadeInRight" data-wow-delay=".6s">
                                 <h3 class="fs-48 mb-1"><span class="timer" data-to="1" data-speed="3000">0</span></h3>
                                 <div class="fs-15">Unsilenced Voice</div>
@@ -160,6 +293,26 @@
                         </div>
                     </div>
                 </div>
+            </section>
+
+            <section class="no-top" style="padding-bottom:0;">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 col-10 text-center wow fadeInUp" data-wow-delay=".3s">
+                            <h2 class="lh-1 quote-text" style="font-style:italic; font-weight:300;">"Not a lecture. Not a legacy frozen in time. But a living baton — passed from one generation to the next."</h2>
+                            <div class="spacer-10"></div>
+                            <p style="font-weight:600; letter-spacing:2px; text-transform:uppercase; opacity:0.6; font-size:12px;">— Watani Stiner</p>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                @media (max-width: 767px) {
+                    .quote-text {
+                        font-size: 24px !important;
+                        line-height: 1.4 !important;
+                    }
+                }
+                </style>
             </section>
 
             <section class="no-top">
@@ -304,6 +457,140 @@
                      </div>
                   </div>
                 </div>
+            </section>
+
+            <section class="no-top">
+                <div class="container">
+                    <div class="row align-items-center g-4 gx-5">
+                        <div class="col-lg-5 text-center wow fadeInLeft" data-wow-delay=".3s">
+                            <img src="images/book-mockup/1.StynerStiner-Book-Cover.png" class="img-fluid" alt="Tending To Historical Wounds — Book Cover" style="max-height:550px; filter:grayscale(100%);">
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="subtitle wow fadeInUp" data-wow-delay=".3s">Coming Soon</div>
+                            <h2 class="lh-1 wow fadeInUp" data-wow-delay=".4s" style="text-transform:uppercase;">Tending To Historical Wounds</h2>
+                            <h5 class="wow fadeInUp" data-wow-delay=".5s" style="letter-spacing:2px;">Daughter of a Revolutionary</h5>
+                            <h5 class="wow fadeInUp" data-wow-delay=".5s" style="letter-spacing:2px;">STYNER STINER</h5>
+
+                            <div class="spacer-10"></div>
+
+                            <p class="lead wow fadeInUp" data-wow-delay=".6s">
+                                What does it mean to grow up as the daughter of a revolutionary — a man shaped by COINTELPRO, exile, incarceration, and return? This is the story behind the story. Sign up to be among the first to receive an early copy.
+                            </p>
+                            <p class="wow fadeInUp" data-wow-delay=".65s" style="font-style:italic; opacity:0.8; min-height:1.5em;">
+                                <span id="typewriter-text"></span>
+                            </p>
+                            <style>
+                            @keyframes blink { 50% { border-color: transparent; } }
+                            </style>
+                            <script>
+                            (function(){
+                                var text = "Personalized signed copies will be available at launch.";
+                                var el = document.getElementById("typewriter-text");
+                                var i = 0;
+                                function typeChar(){
+                                    if(i < text.length){
+                                        el.textContent += text.charAt(i);
+                                        i++;
+                                        setTimeout(typeChar, 40);
+                                    } else {
+                                        setTimeout(eraseChar, 2000);
+                                    }
+                                }
+                                function eraseChar(){
+                                    if(el.textContent.length > 0){
+                                        el.textContent = el.textContent.slice(0, -1);
+                                        setTimeout(eraseChar, 20);
+                                    } else {
+                                        i = 0;
+                                        setTimeout(typeChar, 500);
+                                    }
+                                }
+                                var observer = new IntersectionObserver(function(entries){
+                                    if(entries[0].isIntersecting){
+                                        typeChar();
+                                        observer.disconnect();
+                                    }
+                                }, {threshold: 0.5});
+                                observer.observe(el);
+                            })();
+                            </script>
+
+                            <div class="spacer-10"></div>
+
+                            <form id="book-signup-form" class="wow fadeInUp" data-wow-delay=".7s" method="post" action="https://formsubmit.co/bb7f67fecf69fa7dd6fc51147181d88f">
+                                <input type="hidden" name="_subject" value="New Book Sign-Up — Tending To Historical Wounds">
+                                <input type="hidden" name="_next" value="https://www.watanistiner.com/book-thank-you">
+                                <input type="hidden" name="_captcha" value="false">
+                                <input type="text" name="_honey" style="display:none">
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-sm-4">
+                                        <input type="text" name="Name" class="form-control" placeholder="Your Name" required style="border:1px solid #555; padding:12px 16px; background:transparent; color:inherit;">
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="email" name="Email" class="form-control" placeholder="Your Email" required style="border:1px solid #555; padding:12px 16px; background:transparent; color:inherit;">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="submit" class="w-100 text-center d-block" style="background:#000; color:#fff; padding:12px 16px; font-weight:600; text-decoration:none; white-space:nowrap; border:none; cursor:pointer;">Sign Up</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="no-top donate-section">
+                <div class="container">
+                    <div class="row align-items-center g-4 gx-5">
+                        <div class="col-lg-5 wow fadeInLeft" data-wow-delay=".3s">
+                            <img src="images/watanistiner-images/papa-garden-portrait.png" class="img-fluid" alt="Watani Stiner" style="object-fit:cover; width:100%;">
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="subtitle wow fadeInUp" data-wow-delay=".3s">Support the Work</div>
+                            <h2 class="lh-1 wow fadeInUp" data-wow-delay=".4s">Help Keep This History Alive</h2>
+
+                            <div class="spacer-10"></div>
+
+                            <p class="lead wow fadeInUp" data-wow-delay=".5s">
+                                Watani Stiner has spent decades preserving a history that power tried to erase. Your contribution supports his speaking engagements, community work, and the continuation of a legacy that belongs to all of us.
+                            </p>
+
+                            <div class="spacer-10"></div>
+
+                            <div class="wow fadeInUp" data-wow-delay=".6s">
+                                <a href="https://www.paypal.com/donate/?hosted_button_id=WFSTJD6G9F9BJ" target="_blank" class="donate-btn">Donate Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                .donate-btn {
+                    display: inline-block;
+                    background: #000;
+                    color: #fff;
+                    padding: 16px 48px;
+                    font-weight: 700;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    letter-spacing: 3px;
+                    text-decoration: none;
+                    transition: all .3s;
+                }
+                .donate-btn:hover {
+                    background: #333;
+                    color: #fff;
+                    transform: translateY(-2px);
+                }
+                @media (max-width: 767px) {
+                    .donate-btn {
+                        padding: 14px 36px;
+                        font-size: 13px;
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+                </style>
             </section>
 
             <section class="no-top">
