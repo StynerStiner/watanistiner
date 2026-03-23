@@ -256,15 +256,24 @@
                 text-align: center;
             }
             .grant-tabs {
-                flex-wrap: wrap;
+                flex-direction: column;
+                gap: 0;
             }
             .grant-tab {
-                padding: 12px 18px;
-                font-size: 11px;
+                padding: 16px 20px;
+                font-size: 14px;
                 letter-spacing: 1px;
-                flex: 1;
+                width: 100%;
                 text-align: center;
                 border-right: 2px solid #000;
+                border-bottom: none;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .grant-tab:last-child {
+                border-bottom: 2px solid #000;
             }
             .fund-cta {
                 padding: 50px 24px;
