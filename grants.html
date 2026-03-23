@@ -324,6 +324,7 @@
             <section class="no-top">
 
                 <div class="text-fit-wrapper">
+                    <div class="mobile-page-title">Grants</div>
                     <h1 class="text-fit wow desktop-only-title">GRANTS</h1>
 
                     <!-- Desktop nav -->
@@ -447,6 +448,19 @@
     .desktop-only-title { display: none !important; }
     /* offset content for fixed topbar */
     #content { padding-top: 60px; }
+    /* add breathing room on mobile when big title is hidden */
+    .text-fit-wrapper { padding-top: 20px; }
+    .mobile-page-title {
+        display: block;
+        font-weight: 900;
+        font-size: 32px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 0 20px 10px;
+    }
+}
+@media (min-width: 992px) {
+    .mobile-page-title { display: none !important; }
 }
                 </style>
 
