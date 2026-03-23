@@ -239,6 +239,6 @@ module.exports = async function handler(req, res) {
 
   } catch (error) {
     console.error('Submit error:', error);
-    return res.status(500).json({ error: 'Something went wrong. Please try again or contact grants@watanistiner.com' });
+    return res.status(500).json({ error: 'Something went wrong. Please try again or contact grants@watanistiner.com', debug: error.message });
   }
 };
