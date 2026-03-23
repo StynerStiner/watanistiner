@@ -1,6 +1,6 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/home.html" }
+  "redirects": [
+    { "source": "/home", "destination": "/", "statusCode": 301 }
   ],
   "cleanUrls": true
 }
