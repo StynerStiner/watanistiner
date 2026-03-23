@@ -34,14 +34,14 @@ function getCredentials() {
 async function getGoogleSheetsClient() {
   const creds = getCredentials();
 
-  const auth = new google.auth.JWT(
-    creds.client_email,
-    null,
-    creds.private_key,
-    ['https://www.googleapis.com/auth/spreadsheets']
-  );
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: creds.client_email,
+      private_key: creds.private_key,
+    },
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
 
-  await auth.authorize();
   return google.sheets({ version: 'v4', auth });
 }
 
