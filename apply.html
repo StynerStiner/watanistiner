@@ -210,27 +210,32 @@
         <div class="section-dark no-bottom no-top" id="content">
             <div id="top"></div>
 
+            <!-- Mobile fixed top bar -->
+            <div id="mobile-topbar">
+                <a href="/" class="mobile-topbar-name">WATANI STINER</a>
+                <div id="mobile-menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open'); this.classList.toggle('active');">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <!-- Mobile fullscreen nav overlay -->
+            <div id="mobile-nav">
+                <div id="mobile-nav-close" onclick="document.getElementById('mobile-nav').classList.remove('open'); document.getElementById('mobile-menu-toggle').classList.remove('active');">&times;</div>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/engagements">Engagements</a></li>
+                    <li><a href="/media">Media</a></li>
+                    <li><a href="/grants">Grants</a></li>
+                    <li><a href="/contact">Book Watani</a></li>
+                </ul>
+            </div>
+
             <section class="no-top">
                 <div class="text-fit-wrapper">
-                    <h1 class="text-fit wow">GRANTS</h1>
-
-                    <div id="mobile-menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open'); this.classList.toggle('active');">
-                        <span></span><span></span><span></span>
-                    </div>
+                    <h1 class="text-fit wow desktop-only-title">GRANTS</h1>
 
                     <div class="d-menu-1 wow d-none d-lg-block" data-wow-delay=".3s">
-                        <ul>
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/about">About</a></li>
-                            <li><a href="/engagements">Engagements</a></li>
-                            <li><a href="/media">Media</a></li>
-                            <li><a href="/grants">Grants</a></li>
-                            <li><a href="/contact">Book Watani</a></li>
-                        </ul>
-                    </div>
-
-                    <div id="mobile-nav">
-                        <div id="mobile-nav-close" onclick="document.getElementById('mobile-nav').classList.remove('open'); document.getElementById('mobile-menu-toggle').classList.remove('active');">close</div>
                         <ul>
                             <li><a href="/">Home</a></li>
                             <li><a href="/about">About</a></li>
@@ -243,16 +248,122 @@
                 </div>
 
                 <style>
-                #mobile-menu-toggle { display:none; position:relative; float:right; margin-top:-10px; margin-right:20px; cursor:pointer; z-index:1010; width:30px; height:22px; }
-                #mobile-menu-toggle span { display:block; width:30px; height:3px; background:#000; margin-bottom:5px; transition:.3s; border-radius:2px; }
-                #mobile-menu-toggle.active span { opacity:0; }
-                #mobile-nav { display:none; max-height:0; overflow:hidden; transition:max-height .4s ease, padding .4s ease; padding:0 20px; }
-                #mobile-nav.open { max-height:350px; padding:20px 20px 30px; }
-                #mobile-nav ul { list-style:none; padding:0; margin:0; }
-                #mobile-nav ul li { margin-bottom:16px; }
-                #mobile-nav ul li a { font-weight:800; text-transform:uppercase; font-size:18px; color:var(--title-font-color); text-decoration:none; letter-spacing:1px; }
-                #mobile-nav-close { text-align:right; font-weight:800; text-transform:uppercase; font-size:14px; letter-spacing:2px; cursor:pointer; margin-bottom:20px; color:var(--title-font-color); }
-                @media (max-width:991px) { #mobile-menu-toggle { display:block; } #mobile-nav { display:block; } }
+/* ======== Mobile Top Bar ======== */
+#mobile-topbar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #fff;
+    z-index: 1100;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.mobile-topbar-name {
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #000;
+    text-decoration: none;
+}
+.mobile-topbar-name:hover { color: #000; text-decoration: none; }
+
+/* Mobile hamburger button */
+#mobile-menu-toggle {
+    display: none;
+    cursor: pointer;
+    z-index: 1200;
+    width: 28px;
+    height: 20px;
+    position: relative;
+}
+#mobile-menu-toggle span {
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: #000;
+    margin-bottom: 6px;
+    transition: .3s;
+    border-radius: 2px;
+}
+/* Animate to X on open */
+#mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+}
+#mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+#mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Mobile fullscreen nav overlay */
+#mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: 1150;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility .3s ease;
+}
+#mobile-nav.open {
+    opacity: 1;
+    visibility: visible;
+}
+#mobile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+#mobile-nav ul li {
+    margin-bottom: 28px;
+}
+#mobile-nav ul li a {
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 4px;
+    transition: opacity .2s;
+}
+#mobile-nav ul li a:hover {
+    opacity: 0.6;
+}
+#mobile-nav-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 32px;
+    font-weight: 300;
+    cursor: pointer;
+    color: #fff;
+    line-height: 1;
+}
+
+/* Hide big title on mobile, show topbar */
+@media (max-width: 991px) {
+    #mobile-topbar { display: flex; }
+    #mobile-menu-toggle { display: block; }
+    #mobile-nav { display: flex; }
+    .desktop-only-title { display: none !important; }
+    /* offset content for fixed topbar */
+    #content { padding-top: 60px; }
+}
                 </style>
             </section>
 
