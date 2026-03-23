@@ -171,7 +171,23 @@ module.exports = async function handler(req, res) {
     ];
 
     // Write to Google Sheets
-    const sheets = await getGoogleSheetsClient();
+    let sheets;
+    try {
+      sheets = await getGoogleSheetsClient();
+    } catch (authErr) {
+      return res.status(500).json({ error: 'Google auth failed', debug: authErr.message });
+    }
+
+    // Test basic sheet access first
+    try {
+      const sheetInfo = await sheets.spreadsheets.get({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      });
+      const tabNames = sheetInfo.data.sheets.map(s => s.properties.title);
+      // If we get here, access works - continue
+    } catch (accessErr) {
+      return res.status(500).json({ error: 'Sheet access failed', debug: accessErr.message, sheetId: process.env.GOOGLE_SHEET_ID });
+    }
 
     // Ensure headers exist on all tabs
     await ensureHeaders(sheets, 'All Submissions');
