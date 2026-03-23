@@ -12,7 +12,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://img.youtube.com https://pub-764d2f0e01a94716a648a3e4fdc92cf6.r2.dev https://i.mcdn.cc https://*.stripe.com data:; connect-src 'self' https://formsubmit.co https://api.stripe.com; form-action 'self' https://formsubmit.co https://checkout.stripe.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://img.youtube.com https://pub-764d2f0e01a94716a648a3e4fdc92cf6.r2.dev https://i.mcdn.cc https://*.stripe.com https://cdn-images-1.medium.com https://miro.medium.com data:; connect-src 'self' https://formsubmit.co https://api.stripe.com; form-action 'self' https://formsubmit.co https://checkout.stripe.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none';"
         },
         {
           "key": "X-Frame-Options",
