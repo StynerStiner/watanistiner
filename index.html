@@ -104,6 +104,7 @@
                 <a href="/" class="mobile-topbar-name">WATANI STINER</a>
                 <div id="mobile-menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open'); this.classList.toggle('active');">
                     <span></span><span></span><span></span>
+                    <span class="mobile-menu-close-label">CLOSE</span>
                 </div>
             </div>
 
@@ -181,15 +182,25 @@
                     transition: .3s;
                     border-radius: 2px;
                 }
-                /* Animate to X on open */
-                #mobile-menu-toggle.active span:nth-child(1) {
-                    transform: rotate(45deg) translate(5px, 6px);
+                .mobile-menu-close-label {
+                    display: none;
+                    font-weight: 800;
+                    font-size: 11px;
+                    letter-spacing: 2px;
+                    color: #000;
+                    width: auto !important;
+                    height: auto !important;
+                    background: none !important;
+                    margin: 0 !important;
                 }
-                #mobile-menu-toggle.active span:nth-child(2) {
-                    opacity: 0;
-                }
+                /* Hide lines, show CLOSE label when open */
+                #mobile-menu-toggle.active span:nth-child(1),
+                #mobile-menu-toggle.active span:nth-child(2),
                 #mobile-menu-toggle.active span:nth-child(3) {
-                    transform: rotate(-45deg) translate(5px, -6px);
+                    display: none;
+                }
+                #mobile-menu-toggle.active .mobile-menu-close-label {
+                    display: block;
                 }
 
                 /* Mobile dropdown nav panel */
