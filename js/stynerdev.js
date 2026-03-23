@@ -1530,7 +1530,7 @@
       * document ready
       * --------------------------------------------------*/
      $(function(){
-        $('#de-loader ').prepend($('<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>'));
+        $('#de-loader ').prepend($('<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div class="loader-name">WATANI STINER</div>'));
          'use strict';
          f_rtl();
          load_magnificPopup();

@@ -4979,6 +4979,29 @@ ol.ol-style-1.secondary li::before{
   align-items: center;
 }
 
+#de-loader {
+  flex-direction: column;
+  gap: 30px;
+}
+
+.loader-name {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: #000;
+  opacity: 0;
+  animation: loaderFadeIn 0.8s ease 0.3s forwards;
+}
+
+.dark-scheme .loader-name {
+  color: #fff;
+}
+
+@keyframes loaderFadeIn {
+  to { opacity: 0.6; }
+}
+
 .dark-scheme #de-loader{
   background: var(--bg-dark-1);
 }
