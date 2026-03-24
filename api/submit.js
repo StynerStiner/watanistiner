@@ -153,6 +153,16 @@ async function shouldInsertDivider(sheets, sheetName, currentMonth) {
   }
 }
 
+// Define the sort order for grants within a month
+const GRANT_SORT_ORDER = {
+  'The Watani Fund': 1,
+  'The Stiner Legacy Grant': 2,
+  'The Liberation Builders Grant': 3,
+  'The Watani Freedom Fund': 4,
+  'The COINTELPRO Survivors Grant': 5,
+  'The Watani Stiner Scholarship': 6,
+};
+
 async function appendToSheet(sheets, sheetName, row, month, grantName) {
   // Check if we need a month divider
   const needsDivider = await shouldInsertDivider(sheets, sheetName, month);
@@ -160,6 +170,7 @@ async function appendToSheet(sheets, sheetName, row, month, grantName) {
     await insertMonthDivider(sheets, sheetName, month);
   }
 
+  // Append the new row
   await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.GOOGLE_SHEET_ID,
     range: `${sheetName}!A:W`,
@@ -167,43 +178,104 @@ async function appendToSheet(sheets, sheetName, row, month, grantName) {
     requestBody: { values: [row] },
   });
 
-  // Color the row based on grant type
-  const color = GRANT_COLORS[grantName];
-  if (color) {
-    const sheetId = await getSheetId(sheets, sheetName);
-    if (sheetId !== null) {
-      // Find the row we just appended
-      const dataResp = await sheets.spreadsheets.values.get({
-        spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        range: `${sheetName}!A:A`,
-      });
-      const lastRow = (dataResp.data.values || []).length - 1; // 0-indexed
+  // Now re-sort the current month's rows by grant name and re-color them
+  await sortAndColorCurrentMonth(sheets, sheetName, month);
+}
 
-      await sheets.spreadsheets.batchUpdate({
-        spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        requestBody: {
-          requests: [{
-            repeatCell: {
-              range: {
-                sheetId: sheetId,
-                startRowIndex: lastRow,
-                endRowIndex: lastRow + 1,
-                startColumnIndex: 0,
-                endColumnIndex: 23,
+async function sortAndColorCurrentMonth(sheets, sheetName, currentMonth) {
+  const sheetId = await getSheetId(sheets, sheetName);
+  if (sheetId === null) return;
+
+  // Get all data
+  const dataResp = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: `${sheetName}!A:W`,
+  });
+  const allRows = dataResp.data.values || [];
+  if (allRows.length <= 1) return; // Only header
+
+  // Find the start of the current month (the divider row)
+  let monthStartIndex = -1;
+  for (let i = allRows.length - 1; i >= 1; i--) {
+    const cellA = (allRows[i][0] || '').trim();
+    if (cellA.startsWith('──') && cellA.toUpperCase().includes(currentMonth.toUpperCase())) {
+      monthStartIndex = i;
+      break;
+    }
+  }
+
+  if (monthStartIndex === -1) return; // No divider found
+
+  // Collect data rows after the divider (until end of sheet or next divider)
+  const dataRows = [];
+  for (let i = monthStartIndex + 1; i < allRows.length; i++) {
+    const cellA = (allRows[i][0] || '').trim();
+    if (cellA.startsWith('──')) break; // Next month divider
+    dataRows.push({ index: i, data: allRows[i] });
+  }
+
+  if (dataRows.length <= 1) {
+    // Only one row, just color it
+    if (dataRows.length === 1) {
+      const grantName = dataRows[0].data[3] || ''; // Column D = Grant Name
+      const color = GRANT_COLORS[grantName];
+      if (color) {
+        await sheets.spreadsheets.batchUpdate({
+          spreadsheetId: process.env.GOOGLE_SHEET_ID,
+          requestBody: {
+            requests: [{
+              repeatCell: {
+                range: { sheetId, startRowIndex: dataRows[0].index, endRowIndex: dataRows[0].index + 1, startColumnIndex: 0, endColumnIndex: 23 },
+                cell: { userEnteredFormat: { backgroundColor: color, wrapStrategy: 'WRAP', verticalAlignment: 'TOP' } },
+                fields: 'userEnteredFormat(backgroundColor,wrapStrategy,verticalAlignment)',
               },
-              cell: {
-                userEnteredFormat: {
-                  backgroundColor: color,
-                  wrapStrategy: 'WRAP',
-                  verticalAlignment: 'TOP',
-                },
-              },
-              fields: 'userEnteredFormat(backgroundColor,wrapStrategy,verticalAlignment)',
-            },
-          }],
+            }],
+          },
+        });
+      }
+    }
+    return;
+  }
+
+  // Sort data rows by grant name
+  dataRows.sort((a, b) => {
+    const orderA = GRANT_SORT_ORDER[a.data[3]] || 99;
+    const orderB = GRANT_SORT_ORDER[b.data[3]] || 99;
+    return orderA - orderB;
+  });
+
+  // Write sorted rows back
+  const sortedValues = dataRows.map(r => r.data);
+  const startRow = monthStartIndex + 2; // 1-indexed, after divider
+  const endRow = startRow + sortedValues.length - 1;
+  await sheets.spreadsheets.values.update({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: `${sheetName}!A${startRow}:W${endRow}`,
+    valueInputOption: 'USER_ENTERED',
+    requestBody: { values: sortedValues },
+  });
+
+  // Re-color all rows
+  const colorRequests = [];
+  for (let i = 0; i < sortedValues.length; i++) {
+    const grantName = sortedValues[i][3] || '';
+    const color = GRANT_COLORS[grantName];
+    if (color) {
+      colorRequests.push({
+        repeatCell: {
+          range: { sheetId, startRowIndex: monthStartIndex + 1 + i, endRowIndex: monthStartIndex + 2 + i, startColumnIndex: 0, endColumnIndex: 23 },
+          cell: { userEnteredFormat: { backgroundColor: color, wrapStrategy: 'WRAP', verticalAlignment: 'TOP' } },
+          fields: 'userEnteredFormat(backgroundColor,wrapStrategy,verticalAlignment)',
         },
       });
     }
+  }
+
+  if (colorRequests.length > 0) {
+    await sheets.spreadsheets.batchUpdate({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      requestBody: { requests: colorRequests },
+    });
   }
 }
 
