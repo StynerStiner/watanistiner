@@ -167,27 +167,98 @@ async function ensureHeaders(sheets, sheetName) {
     'How Heard', 'Additional Notes', 'Fee Amount', 'Payment Status', 'Stripe Session ID'
   ];
 
+  let needsSetup = false;
   try {
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
       range: `${sheetName}!A1:W1`,
     });
     if (!response.data.values || response.data.values.length === 0) {
-      await sheets.spreadsheets.values.update({
-        spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        range: `${sheetName}!A1:W1`,
-        valueInputOption: 'USER_ENTERED',
-        requestBody: { values: [headers] },
-      });
+      needsSetup = true;
     }
   } catch (e) {
-    // If sheet tab doesn't exist or is empty, write headers
+    needsSetup = true;
+  }
+
+  if (needsSetup) {
     await sheets.spreadsheets.values.update({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
       range: `${sheetName}!A1:W1`,
       valueInputOption: 'USER_ENTERED',
       requestBody: { values: [headers] },
     });
+
+    // Format the sheet: text wrapping + column widths
+    const sheetId = await getSheetId(sheets, sheetName);
+    if (sheetId !== null) {
+      // Column widths: narrower for short fields, wider for essays
+      // A=Timestamp, B=Month, C=AppID, D=Grant, E=Category, F=First, G=Last,
+      // H=Email, I=Phone, J=Address, K=City, L=State, M=Zip,
+      // N=Why Applying, O=Mission, P=Community Impact,
+      // Q=Prior Funding, R=Prior Details, S=How Heard, T=Notes,
+      // U=Fee, V=Payment Status, W=Stripe Session
+      const columnWidths = [
+        140, 110, 130, 180, 130, 100, 100,
+        180, 110, 160, 100, 60, 70,
+        300, 300, 300,
+        90, 180, 120, 250,
+        70, 100, 200
+      ];
+
+      const requests = [];
+
+      // Set text wrapping on ALL cells
+      requests.push({
+        repeatCell: {
+          range: { sheetId: sheetId, startRowIndex: 0, startColumnIndex: 0, endColumnIndex: 23 },
+          cell: {
+            userEnteredFormat: {
+              wrapStrategy: 'WRAP',
+              verticalAlignment: 'TOP',
+            },
+          },
+          fields: 'userEnteredFormat(wrapStrategy,verticalAlignment)',
+        },
+      });
+
+      // Set column widths
+      columnWidths.forEach((width, i) => {
+        requests.push({
+          updateDimensionProperties: {
+            range: { sheetId: sheetId, dimension: 'COLUMNS', startIndex: i, endIndex: i + 1 },
+            properties: { pixelSize: width },
+            fields: 'pixelSize',
+          },
+        });
+      });
+
+      // Bold + freeze header row
+      requests.push({
+        repeatCell: {
+          range: { sheetId: sheetId, startRowIndex: 0, endRowIndex: 1, startColumnIndex: 0, endColumnIndex: 23 },
+          cell: {
+            userEnteredFormat: {
+              textFormat: { bold: true },
+              backgroundColor: { red: 0.93, green: 0.93, blue: 0.93 },
+              wrapStrategy: 'WRAP',
+              verticalAlignment: 'MIDDLE',
+            },
+          },
+          fields: 'userEnteredFormat(textFormat,backgroundColor,wrapStrategy,verticalAlignment)',
+        },
+      });
+      requests.push({
+        updateSheetProperties: {
+          properties: { sheetId: sheetId, gridProperties: { frozenRowCount: 1 } },
+          fields: 'gridProperties.frozenRowCount',
+        },
+      });
+
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID,
+        requestBody: { requests },
+      });
+    }
   }
 }
 
