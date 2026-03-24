@@ -45,7 +45,111 @@ async function getGoogleSheetsClient() {
   return google.sheets({ version: 'v4', auth });
 }
 
-async function appendToSheet(sheets, sheetName, row) {
+async function getSheetId(sheets, sheetName) {
+  const resp = await sheets.spreadsheets.get({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+  });
+  const sheet = resp.data.sheets.find(s => s.properties.title === sheetName);
+  return sheet ? sheet.properties.sheetId : null;
+}
+
+async function insertMonthDivider(sheets, sheetName, month) {
+  const sheetId = await getSheetId(sheets, sheetName);
+  if (sheetId === null) return;
+
+  // Get current data to find the last row
+  const dataResp = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: `${sheetName}!A:A`,
+  });
+  const lastRow = (dataResp.data.values || []).length;
+
+  // Append divider row
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: `${sheetName}!A:W`,
+    valueInputOption: 'USER_ENTERED',
+    requestBody: {
+      values: [[`── ${month.toUpperCase()} ──`, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']],
+    },
+  });
+
+  // Format the divider row with a dark background
+  const dividerRow = lastRow; // 0-indexed
+  await sheets.spreadsheets.batchUpdate({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    requestBody: {
+      requests: [
+        {
+          repeatCell: {
+            range: {
+              sheetId: sheetId,
+              startRowIndex: dividerRow,
+              endRowIndex: dividerRow + 1,
+              startColumnIndex: 0,
+              endColumnIndex: 23,
+            },
+            cell: {
+              userEnteredFormat: {
+                backgroundColor: { red: 0.15, green: 0.15, blue: 0.15 },
+                textFormat: {
+                  foregroundColor: { red: 1, green: 1, blue: 1 },
+                  bold: true,
+                  fontSize: 11,
+                },
+                horizontalAlignment: 'CENTER',
+                verticalAlignment: 'MIDDLE',
+              },
+            },
+            fields: 'userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)',
+          },
+        },
+        {
+          updateDimensionProperties: {
+            range: {
+              sheetId: sheetId,
+              dimension: 'ROWS',
+              startIndex: dividerRow,
+              endIndex: dividerRow + 1,
+            },
+            properties: { pixelSize: 36 },
+            fields: 'pixelSize',
+          },
+        },
+      ],
+    },
+  });
+}
+
+async function shouldInsertDivider(sheets, sheetName, currentMonth) {
+  try {
+    const resp = await sheets.spreadsheets.values.get({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      range: `${sheetName}!B:B`,
+    });
+    const values = resp.data.values || [];
+    if (values.length <= 1) return true; // Only header row, first entry ever
+
+    // Find the last non-divider, non-empty month value
+    for (let i = values.length - 1; i >= 1; i--) {
+      const val = (values[i][0] || '').trim();
+      if (val && !val.startsWith('──')) {
+        return val !== currentMonth;
+      }
+    }
+    return true; // No previous entries found
+  } catch (e) {
+    return false;
+  }
+}
+
+async function appendToSheet(sheets, sheetName, row, month) {
+  // Check if we need a month divider
+  const needsDivider = await shouldInsertDivider(sheets, sheetName, month);
+  if (needsDivider) {
+    await insertMonthDivider(sheets, sheetName, month);
+  }
+
   await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.GOOGLE_SHEET_ID,
     range: `${sheetName}!A:W`,
@@ -171,31 +275,15 @@ module.exports = async function handler(req, res) {
     ];
 
     // Write to Google Sheets
-    let sheets;
-    try {
-      sheets = await getGoogleSheetsClient();
-    } catch (authErr) {
-      return res.status(500).json({ error: 'Google auth failed', debug: authErr.message });
-    }
-
-    // Test basic sheet access first
-    try {
-      const sheetInfo = await sheets.spreadsheets.get({
-        spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      });
-      const tabNames = sheetInfo.data.sheets.map(s => s.properties.title);
-      // If we get here, access works - continue
-    } catch (accessErr) {
-      return res.status(500).json({ error: 'Sheet access failed', debug: accessErr.message, sheetId: process.env.GOOGLE_SHEET_ID });
-    }
+    const sheets = await getGoogleSheetsClient();
 
     // Ensure headers exist on all tabs
     await ensureHeaders(sheets, 'All Submissions');
     await ensureHeaders(sheets, grantConfig.category);
 
-    // Append to both tabs
-    await appendToSheet(sheets, 'All Submissions', row);
-    await appendToSheet(sheets, grantConfig.category, row);
+    // Append to both tabs (with month dividers)
+    await appendToSheet(sheets, 'All Submissions', row, month);
+    await appendToSheet(sheets, grantConfig.category, row, month);
 
     // Forward to FormSubmit (email backup) - fire and forget
     try {
@@ -263,21 +351,6 @@ module.exports = async function handler(req, res) {
 
   } catch (error) {
     console.error('Submit error:', error);
-    const hasCredEnv = !!process.env.GOOGLE_CREDENTIALS_BASE64;
-    let credLen = 0;
-    let parsedEmail = '';
-    let hasPrivateKey = false;
-    try {
-      const raw = Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64 || '', 'base64').toString('utf8');
-      credLen = raw.length;
-      const parsed = JSON.parse(raw);
-      parsedEmail = parsed.client_email || 'missing';
-      hasPrivateKey = !!(parsed.private_key && parsed.private_key.includes('PRIVATE KEY'));
-    } catch(e) { parsedEmail = 'parse_error: ' + e.message; }
-    return res.status(500).json({
-      error: 'Something went wrong. Please try again or contact grants@watanistiner.com',
-      debug: error.message,
-      envCheck: { hasCredEnv, credLen, parsedEmail, hasPrivateKey }
-    });
+    return res.status(500).json({ error: 'Something went wrong. Please try again or contact grants@watanistiner.com' });
   }
 };
