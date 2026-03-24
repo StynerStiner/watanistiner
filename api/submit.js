@@ -11,6 +11,16 @@ const GRANT_CONFIG = {
   'The Watani Stiner Scholarship ($10 fee)': { fee: 1000, category: 'Education', name: 'The Watani Stiner Scholarship' },
 };
 
+// Grant row colors (subtle tints for visual identification)
+const GRANT_COLORS = {
+  'The Watani Fund':              { red: 0.85, green: 0.92, blue: 1.0 },   // light blue
+  'The Stiner Legacy Grant':      { red: 0.85, green: 1.0,  blue: 0.88 },  // light green
+  'The Liberation Builders Grant':{ red: 1.0,  green: 0.95, blue: 0.8 },   // light gold
+  'The Watani Freedom Fund':      { red: 0.9,  green: 0.87, blue: 1.0 },   // light purple
+  'The COINTELPRO Survivors Grant':{ red: 1.0, green: 0.88, blue: 0.85 },  // light coral
+  'The Watani Stiner Scholarship':{ red: 0.88, green: 0.97, blue: 0.95 },  // light teal
+};
+
 // Required fields
 const REQUIRED_FIELDS = ['firstName', 'lastName', 'email', 'streetAddress', 'city', 'state', 'zipCode', 'grant', 'whyApplying'];
 
@@ -143,7 +153,7 @@ async function shouldInsertDivider(sheets, sheetName, currentMonth) {
   }
 }
 
-async function appendToSheet(sheets, sheetName, row, month) {
+async function appendToSheet(sheets, sheetName, row, month, grantName) {
   // Check if we need a month divider
   const needsDivider = await shouldInsertDivider(sheets, sheetName, month);
   if (needsDivider) {
@@ -156,6 +166,45 @@ async function appendToSheet(sheets, sheetName, row, month) {
     valueInputOption: 'USER_ENTERED',
     requestBody: { values: [row] },
   });
+
+  // Color the row based on grant type
+  const color = GRANT_COLORS[grantName];
+  if (color) {
+    const sheetId = await getSheetId(sheets, sheetName);
+    if (sheetId !== null) {
+      // Find the row we just appended
+      const dataResp = await sheets.spreadsheets.values.get({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID,
+        range: `${sheetName}!A:A`,
+      });
+      const lastRow = (dataResp.data.values || []).length - 1; // 0-indexed
+
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID,
+        requestBody: {
+          requests: [{
+            repeatCell: {
+              range: {
+                sheetId: sheetId,
+                startRowIndex: lastRow,
+                endRowIndex: lastRow + 1,
+                startColumnIndex: 0,
+                endColumnIndex: 23,
+              },
+              cell: {
+                userEnteredFormat: {
+                  backgroundColor: color,
+                  wrapStrategy: 'WRAP',
+                  verticalAlignment: 'TOP',
+                },
+              },
+              fields: 'userEnteredFormat(backgroundColor,wrapStrategy,verticalAlignment)',
+            },
+          }],
+        },
+      });
+    }
+  }
 }
 
 async function ensureHeaders(sheets, sheetName) {
@@ -352,9 +401,9 @@ module.exports = async function handler(req, res) {
     await ensureHeaders(sheets, 'All Submissions');
     await ensureHeaders(sheets, grantConfig.category);
 
-    // Append to both tabs (with month dividers)
-    await appendToSheet(sheets, 'All Submissions', row, month);
-    await appendToSheet(sheets, grantConfig.category, row, month);
+    // Append to both tabs (with month dividers + grant colors)
+    await appendToSheet(sheets, 'All Submissions', row, month, grantConfig.name);
+    await appendToSheet(sheets, grantConfig.category, row, month, grantConfig.name);
 
     // Forward to FormSubmit (email backup) - fire and forget
     try {
